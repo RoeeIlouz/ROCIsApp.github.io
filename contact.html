@@ -14,22 +14,28 @@
     <nav>
       <div class="container nav-content">
         <a href="index.html#home" class="logo"> <span>🚀</span> ROCIs Apps </a>
-        <div class="nav-links">
+        <div class="nav-links" id="nav-links">
           <a href="index.html#apps">Apps</a>
           <a href="about.html">About</a>
           <a href="contact.html" class="btn btn-primary">Contact Us</a>
         </div>
-        <button
-          id="theme-toggle"
-          style="
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 1.2rem;
-          "
-        >
-          🌓
-        </button>
+        <div style="display: flex; align-items: center; gap: 1rem;">
+          <button
+            id="theme-toggle"
+            style="
+              background: none;
+              border: none;
+              cursor: pointer;
+              font-size: 1.2rem;
+            "
+            aria-label="Toggle Theme"
+          >
+            🌓
+          </button>
+          <button class="hamburger" id="hamburger" aria-label="Toggle Menu">
+            ☰
+          </button>
+        </div>
       </div>
     </nav>
 
