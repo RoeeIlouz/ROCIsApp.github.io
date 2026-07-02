@@ -42,62 +42,152 @@
     <section id="home" class="hero">
       <div class="glow-orb"></div>
       <div class="container">
-        <h1 class="animate">Tools Built for the <br />Future of Learning</h1>
+        <h1 class="animate">Execution Built for the <br />Future of Learning</h1>
         <p class="animate" style="animation-delay: 0.1s">
-          A powerful ecosystem of apps designed to streamline your tasks,
-          schedules, and notes with premium aesthetics and native performance.
+          Streamline your assignments, manage deadlines, and build a productive workflow with ROCIs Tasks—crafted with premium design aesthetics, offline-first synchronization, and fluid native performance.
         </p>
-        <div class="animate" style="animation-delay: 0.2s">
-          <a href="#apps" class="btn btn-primary">Explore our Apps</a>
+        <div class="animate cta-row" style="animation-delay: 0.2s; display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; margin-top: 1rem;">
+          <a href="https://play.google.com/store/apps/details?id=com.rocisapps.tasks" target="_blank" class="btn btn-primary">
+            <span>Get it on Google Play</span>
+          </a>
+          <a href="https://rocis-todo.web.app" target="_blank" class="btn btn-secondary">
+            <span>Launch Web App</span>
+          </a>
         </div>
       </div>
     </section>
 
-    <section id="apps" class="container">
-      <h2 style="text-align: center; margin-bottom: 3rem; font-size: 2.5rem">
-        Our Ecosystem
-      </h2>
-      <div class="apps-grid">
-        <div class="card animate" style="animation-delay: 0.3s">
-          <img src="Assets/ROCIsTasks.png" alt="ROCIs Tasks" class="app-icon" />
-          <h3>ROCIs Tasks</h3>
-          <p>
-            The hub for your daily action. Syncs with your schedule to turn
-            deadlines into detailed subtasks. Built with a premium Indigo theme.
+    <section id="apps" class="container showcase-section">
+      <div class="showcase-content">
+        <div class="showcase-text animate">
+          <span class="badge">Live Now</span>
+          <h2>ROCIs Tasks</h2>
+          <p class="lead">The hub for your daily action.</p>
+          <p class="description">
+            Sync your academic deadlines into detailed, actionable subtasks with cloud-local auto synchronization. Crafted with a premium glassmorphic UI, native Android home screen widgets, and interactive calendar agendas to keep you in the zone.
           </p>
-          <div class="tags">
-            <span class="tag">Smart Sync</span>
-            <span class="tag">Custom UI</span>
+          <ul class="features-list">
+            <li>
+              <div class="feature-icon">📅</div>
+              <div>
+                <strong>Unified Calendar & Device Sync</strong>
+                <p>Bring tasks and local/external calendar events together into a seamless agenda view.</p>
+              </div>
+            </li>
+            <li>
+              <div class="feature-icon">📱</div>
+              <div>
+                <strong>Interactive Home Screen Widgets</strong>
+                <p>Check off tasks and navigate calendar agenda views directly from your device's home screen.</p>
+              </div>
+            </li>
+            <li>
+              <div class="feature-icon">💾</div>
+              <div>
+                <strong>Offline-First Synchronization</strong>
+                <p>Manage tasks instantly offline with local Hive caching. Syncs automatically to Firebase Firestore once online.</p>
+              </div>
+            </li>
+            <li>
+              <div class="feature-icon">🎨</div>
+              <div>
+                <strong>Material You & Adaptive Themes</strong>
+                <p>Experience dynamic Android system color palettes, smooth completions haptics, and custom AMOLED dark modes.</p>
+              </div>
+            </li>
+          </ul>
+          <div class="cta-group" style="flex-wrap: wrap;">
+            <a href="https://play.google.com/store/apps/details?id=com.rocisapps.tasks" target="_blank" class="btn btn-primary">
+              <span>Download on Google Play</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+            <a href="https://rocis-todo.web.app" target="_blank" class="btn btn-secondary">
+              <span>Open Web Version</span>
+            </a>
           </div>
         </div>
 
-        <div class="card animate" style="animation-delay: 0.4s">
-          <img
-            src="Assets/ROCIsSchedule.png"
-            alt="ROCIs Schedule"
-            class="app-icon"
-          />
-          <h3>ROCIs Schedule</h3>
-          <p>
-            Collaborative academic planning. Compare schedules with friends,
-            find common free time, and track your semesters effortlessly.
-          </p>
-          <div class="tags">
-            <span class="tag">Social Comparison</span>
-            <span class="tag">Offline-First</span>
-          </div>
-        </div>
+        <!-- Interactive App Simulator -->
+        <div class="showcase-visual animate" style="animation-delay: 0.2s">
+          <div class="phone-frame">
+            <div class="phone-notch"></div>
+            <div class="phone-screen">
+              <div class="app-simulator">
+                <div class="app-header">
+                  <div class="app-title-area">
+                    <span class="app-logo-emoji">🚀</span>
+                    <div>
+                      <h4 class="app-title-text">ROCIs Tasks</h4>
+                      <span class="app-subtitle-text">Academic Workspace</span>
+                    </div>
+                  </div>
+                  <div class="app-chart-container">
+                    <svg class="progress-ring" width="48" height="48">
+                      <circle class="progress-ring__background" stroke="var(--border)" stroke-width="4" fill="transparent" r="18" cx="24" cy="24"/>
+                      <circle class="progress-ring__circle" stroke="var(--primary)" stroke-width="4" fill="transparent" r="18" cx="24" cy="24" stroke-dasharray="113.1" stroke-dashoffset="38.45"/>
+                    </svg>
+                    <div class="chart-label"><span id="chart-percent">66</span>%</div>
+                  </div>
+                </div>
 
-        <div class="card animate" style="animation-delay: 0.5s">
-          <img src="Assets/ROCIsNotes.png" alt="ROCIs Notes" class="app-icon" />
-          <h3>ROCIs Notes</h3>
-          <p>
-            The infinite creative canvas. Hybrid handwriting with math solving
-            capabilities. The ultimate OneNote alternative for researchers.
-          </p>
-          <div class="tags">
-            <span class="tag">Math AI</span>
-            <span class="tag">Infinite Canvas</span>
+                <div class="app-stats">
+                  <div class="stat-card">
+                    <span class="stat-num" id="stat-completed">2</span>
+                    <span class="stat-label">Done</span>
+                  </div>
+                  <div class="stat-card">
+                    <span class="stat-num" id="stat-pending">1</span>
+                    <span class="stat-label">Left</span>
+                  </div>
+                </div>
+
+                <div class="app-task-section">
+                  <h5 class="section-title">TODAY'S TASKS</h5>
+                  <div class="task-list" id="sim-task-list">
+                    <!-- Task 1 -->
+                    <div class="sim-task-item completed" data-id="1">
+                      <div class="sim-checkbox">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                      </div>
+                      <div class="sim-task-content">
+                        <span class="sim-task-title">Review UI style guide</span>
+                        <span class="sim-priority-pill priority-low">Low</span>
+                      </div>
+                    </div>
+                    <!-- Task 2 -->
+                    <div class="sim-task-item completed" data-id="2">
+                      <div class="sim-checkbox">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                      </div>
+                      <div class="sim-task-content">
+                        <span class="sim-task-title">Remove inactive apps</span>
+                        <span class="sim-priority-pill priority-medium">Medium</span>
+                      </div>
+                    </div>
+                    <!-- Task 3 -->
+                    <div class="sim-task-item" data-id="3">
+                      <div class="sim-checkbox">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                      </div>
+                      <div class="sim-task-content">
+                        <span class="sim-task-title">Implement interactive preview</span>
+                        <span class="sim-priority-pill priority-high">High</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Simulator Theme Quick Selector -->
+                <div class="app-theme-selector">
+                  <span>Preview Theme:</span>
+                  <div class="theme-bubbles">
+                    <button class="theme-bubble light" data-sim-theme="light" title="Light Mode" aria-label="Simulate Light Theme"></button>
+                    <button class="theme-bubble dark active" data-sim-theme="dark" title="Slate Dark" aria-label="Simulate Dark Theme"></button>
+                    <button class="theme-bubble amoled" data-sim-theme="amoled" title="AMOLED Black" aria-label="Simulate AMOLED Theme"></button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -111,12 +201,9 @@
       "
     >
       <div class="container">
-        <p style="margin-bottom: 1rem">
-          <a
-            href="privacy.html"
-            style="color: var(--text-muted); text-decoration: none"
-            >Privacy Policy</a
-          >
+        <p style="margin-bottom: 1rem; display: flex; justify-content: center; gap: 1.5rem;">
+          <a href="privacy.html" style="color: var(--text-muted); text-decoration: none;">Privacy Policy</a>
+          <a href="terms.html" style="color: var(--text-muted); text-decoration: none;">Terms of Service</a>
         </p>
         <p>
           &copy; 2026 ROCIs Apps. Crafted with passion for learners everywhere.
