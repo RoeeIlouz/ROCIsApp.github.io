@@ -8,20 +8,26 @@
       name="description"
       content="Privacy Policy for ROCIs Tasks, the premium workload and action planner for students."
     />
+    <link rel="icon" type="image/png" href="Assets/ROCIsApps-logo/profile.png" />
     <link rel="stylesheet" href="style.css" />
     <style>
       .privacy-content h2 { color: var(--primary); margin-top: 2rem; margin-bottom: 1rem; }
       .privacy-content h3 { color: var(--accent); margin-top: 1.5rem; margin-bottom: 0.5rem; }
       .privacy-content p, .privacy-content ul { color: var(--text-muted); line-height: 1.8; margin-bottom: 1rem; }
       .privacy-content ul { padding-left: 2rem; }
+      .privacy-content a { color: var(--primary); }
     </style>
   </head>
   <body>
     <nav>
       <div class="container nav-content">
-        <a href="index.html#home" class="logo"> <span>🚀</span> ROCIs Apps </a>
+        <a href="index.html#home" class="logo">
+          <img src="Assets/ROCIsApps-logo/profile.png" alt="ROCIs Apps Logo" class="logo-img" />
+          <span class="logo-text">ROCIs Apps</span>
+        </a>
         <div class="nav-links" id="nav-links">
           <a href="index.html#apps">Apps</a>
+          <a href="index.html#screenshots">Screenshots</a>
           <a href="about.html">About</a>
           <a href="contact.html" class="btn btn-primary">Contact Us</a>
         </div>
@@ -45,7 +51,7 @@
       </div>
     </nav>
 
-    <section class="hero contact" style="padding: 12rem 0 6rem; min-height: 80vh;">
+    <section class="hero contact" style="padding: 11rem 0 6rem; min-height: 80vh;">
       <div class="glow-orb"></div>
       <div class="container">
         <div class="card animate privacy-content" style="padding: 4rem; max-width: 900px; margin: 0 auto; text-align: left;">
@@ -121,19 +127,21 @@
       </div>
     </section>
 
-    <footer
-      style="
-        padding: 4rem 0;
-        text-align: center;
-        border-top: 1px solid var(--border);
-      "
-    >
+    <footer>
       <div class="container">
-        <p style="margin-bottom: 1rem; display: flex; justify-content: center; gap: 1.5rem;">
-          <a href="privacy.html" style="color: var(--text-muted); text-decoration: none;">Privacy Policy</a>
-          <a href="terms.html" style="color: var(--text-muted); text-decoration: none;">Terms of Service</a>
-        </p>
-        <p>
+        <div class="footer-logo-area">
+          <img src="Assets/ROCIsApps-logo/profile.png" alt="ROCIs Apps" style="width: 32px; height: 32px; border-radius: 8px;" />
+          <span style="font-family: 'Neuton', serif; font-size: 1.4rem; font-weight: 700; color: var(--text);">ROCIs Apps</span>
+        </div>
+        <div class="footer-links">
+          <a href="index.html#apps">Apps</a>
+          <a href="index.html#screenshots">Screenshots</a>
+          <a href="about.html">About</a>
+          <a href="contact.html">Contact</a>
+          <a href="privacy.html">Privacy Policy</a>
+          <a href="terms.html">Terms of Service</a>
+        </div>
+        <p class="copyright">
           &copy; 2026 ROCIs Apps. Crafted with passion for learners everywhere.
         </p>
       </div>

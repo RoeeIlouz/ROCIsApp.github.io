@@ -1,0 +1,14 @@
+
+Hope you enjoy your new logo, here are the people that
+made your beautiful logo happen :)
+font name: Neuton-Regular
+font link: https://fonts.google.com/specimen/Neuton
+font author: Brian Zick
+font author site: https://brianskywalker.deviantart.com/
+Slogan Font: LindenHill-webfont.ttf
+
+icon designer: undefined
+icon designer link: undefined
+        
+{"bg":"#F6E7DC","icon-gradient-0":"#792300","icon-gradient-1":"#F37000","font":"#2B1200","slogan":"#3f2614"}
+      

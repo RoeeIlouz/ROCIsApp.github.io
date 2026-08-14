@@ -8,14 +8,19 @@
       name="description"
       content="Get in touch with the ROCIs Apps team. We are dedicated to helping you make the most of your academic journey."
     />
+    <link rel="icon" type="image/png" href="Assets/ROCIsApps-logo/profile.png" />
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <nav>
       <div class="container nav-content">
-        <a href="index.html#home" class="logo"> <span>🚀</span> ROCIs Apps </a>
+        <a href="index.html#home" class="logo">
+          <img src="Assets/ROCIsApps-logo/profile.png" alt="ROCIs Apps Logo" class="logo-img" />
+          <span class="logo-text">ROCIs Apps</span>
+        </a>
         <div class="nav-links" id="nav-links">
           <a href="index.html#apps">Apps</a>
+          <a href="index.html#screenshots">Screenshots</a>
           <a href="about.html">About</a>
           <a href="contact.html" class="btn btn-primary">Contact Us</a>
         </div>
@@ -39,36 +44,43 @@
       </div>
     </nav>
 
-    <section id="contact" class="hero contact" style="padding: 12rem 0; min-height: 80vh; display: flex; align-items: center; justify-content: center;">
+    <section id="contact" class="hero contact" style="padding: 11rem 0; min-height: 80vh; display: flex; align-items: center; justify-content: center;">
       <div class="glow-orb"></div>
       <div class="container">
         <div class="contact-card animate">
-          <h1 style="font-size: 3rem; margin-bottom: 1rem;">Get in Touch</h1>
-          <p style="font-size: 1.2rem; max-width: 600px; margin: 0 auto 2rem;">
-            Have questions or feedback? We'd love to hear from you. Our support
-            team is dedicated to help you make the most of your academic
-            journey.
+          <div class="hero-brand-pill" style="margin-bottom: 1.5rem;">
+            <img src="Assets/ROCIsApps-logo/profile.png" alt="ROCIs Apps" style="width: 18px; height: 18px; border-radius: 4px;" />
+            <span>Support & Inquiries</span>
+          </div>
+          <h1 style="font-size: 3.2rem; margin-bottom: 1rem;">Get in Touch</h1>
+          <p style="font-size: 1.15rem; max-width: 540px; margin: 0 auto 2rem; color: var(--text-muted);">
+            Have questions, feedback, or feature suggestions? We'd love to hear from you. Our team is dedicated to helping you make the most of your daily workflow.
           </p>
-          <div class="email-bubble" style="font-size: 1.5rem; padding: 1.5rem 3rem;"><a href="mailto:support@ilouz.xyz">support@ilouz.xyz</a></div>
-          <p style="font-size: 1rem; color: var(--text-muted); margin-top: 2rem;">
+          <div class="email-bubble" style="font-size: 1.3rem; padding: 1.25rem 2.75rem;">
+            <a href="mailto:support@ilouz.xyz">support@ilouz.xyz</a>
+          </div>
+          <p style="font-size: 0.95rem; color: var(--text-muted); margin-top: 1.5rem;">
             Standard response time: within 24 hours.
           </p>
         </div>
       </div>
     </section>
 
-    <footer
-      style="
-        padding: 4rem 0;
-        text-align: center;
-        border-top: 1px solid var(--border);
-      "
-    >
+    <footer>
       <div class="container">
-        <p style="margin-bottom: 1rem;">
-          <a href="privacy.html" style="color: var(--text-muted); text-decoration: none;">Privacy Policy</a>
-        </p>
-        <p>
+        <div class="footer-logo-area">
+          <img src="Assets/ROCIsApps-logo/profile.png" alt="ROCIs Apps" style="width: 32px; height: 32px; border-radius: 8px;" />
+          <span style="font-family: 'Neuton', serif; font-size: 1.4rem; font-weight: 700; color: var(--text);">ROCIs Apps</span>
+        </div>
+        <div class="footer-links">
+          <a href="index.html#apps">Apps</a>
+          <a href="index.html#screenshots">Screenshots</a>
+          <a href="about.html">About</a>
+          <a href="contact.html">Contact</a>
+          <a href="privacy.html">Privacy Policy</a>
+          <a href="terms.html">Terms of Service</a>
+        </div>
+        <p class="copyright">
           &copy; 2026 ROCIs Apps. Crafted with passion for learners everywhere.
         </p>
       </div>
