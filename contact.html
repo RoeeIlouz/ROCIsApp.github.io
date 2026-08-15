@@ -12,15 +12,36 @@
     </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
     <title>Contact Us | ROCIs Apps</title>
     <meta
       name="description"
-      content="Get in touch with the ROCIs Apps team. We are dedicated to helping you make the most of your academic journey."
+      content="Get in touch with the ROCIs Apps team for support, questions, feedback, or feature suggestions."
     />
+    <link rel="canonical" href="https://rocisapps.com/contact.html" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://rocisapps.com/contact.html" />
+    <meta property="og:title" content="Contact Us | ROCIs Apps" />
+    <meta property="og:description" content="Get in touch with the ROCIs Apps team for support, feedback, or feature suggestions." />
+    <meta property="og:image" content="https://rocisapps.com/Assets/ROCIsApps-logo/cover.png" />
+    <meta property="og:site_name" content="ROCIs Apps" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://rocisapps.com/contact.html" />
+    <meta name="twitter:title" content="Contact Us | ROCIs Apps" />
+    <meta name="twitter:description" content="Get in touch with the ROCIs Apps team for support, feedback, or feature suggestions." />
+    <meta name="twitter:image" content="https://rocisapps.com/Assets/ROCIsApps-logo/cover.png" />
+
     <link rel="icon" type="image/png" href="Assets/ROCIsApps-logo/ultra-modern-continuous-monoline-vector-logo-combi.png" />
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+    <!-- Skip to main content link -->
+    <a href="#contact" class="skip-link">Skip to main content</a>
+
     <nav>
       <div class="container nav-content">
         <a href="index.html#home" class="logo">
@@ -28,32 +49,27 @@
           <span class="logo-text">ROCIs Apps</span>
         </a>
         <div class="nav-links" id="nav-links">
-          <a href="index.html#apps">Apps</a>
+          <a href="index.html#apps">Features</a>
           <a href="index.html#screenshots">Screenshots</a>
           <a href="about.html">About</a>
-          <a href="contact.html" class="btn btn-primary">Contact Us</a>
+          <a href="contact.html" class="btn btn-primary active">Contact Us</a>
         </div>
-        <div style="display: flex; align-items: center; gap: 1rem;">
+        <div class="nav-actions">
           <button
             id="theme-toggle"
-            style="
-              background: none;
-              border: none;
-              cursor: pointer;
-              font-size: 1.2rem;
-            "
-            aria-label="Toggle Theme"
+            class="theme-toggle-btn"
+            aria-label="Toggle visual theme"
           >
-            🌓
+            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
           </button>
-          <button class="hamburger" id="hamburger" aria-label="Toggle Menu">
-            ☰
+          <button class="hamburger" id="hamburger" aria-label="Toggle navigation menu" aria-expanded="false">
+            <svg viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
           </button>
         </div>
       </div>
     </nav>
 
-    <section id="contact" class="hero contact" style="padding: 11rem 0; min-height: 80vh; display: flex; align-items: center; justify-content: center;">
+    <section id="contact" class="hero contact" style="padding: 11rem 0 6rem; min-height: 80vh; display: flex; align-items: center; justify-content: center;">
       <div class="glow-orb"></div>
       <div class="container">
         <div class="contact-card animate">
@@ -62,18 +78,57 @@
             <span>Designed clean, Engineered smart</span>
           </div>
           <h1 style="font-size: 3.2rem; margin-bottom: 1rem;">Get in Touch</h1>
-          <p style="font-size: 1.15rem; max-width: 540px; margin: 0 auto 2rem; color: var(--text-muted);">
+          <p style="font-size: 1.15rem; max-width: 560px; margin: 0 auto 2rem; color: var(--text-muted);">
             Have questions, feedback, or feature suggestions? We'd love to hear from you. Our team is dedicated to helping you make the most of your daily workflow.
           </p>
-          <div class="email-bubble" style="font-size: 1.3rem; padding: 1.25rem 2.75rem;">
-            <a href="mailto:support@rocisapps.com">support@rocisapps.com</a>
+
+          <div class="contact-email-row">
+            <div class="email-bubble">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+              <a href="mailto:support@rocisapps.com">support@rocisapps.com</a>
+            </div>
+            <button id="copy-email-btn" class="copy-btn" aria-label="Copy email address to clipboard">
+              <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              <span>Copy Email</span>
+            </button>
           </div>
-          <p style="font-size: 0.95rem; color: var(--text-muted); margin-top: 1.5rem;">
+
+          <p style="font-size: 0.95rem; color: var(--text-muted); margin-top: 1rem;">
             Standard response time: within 24 hours.
           </p>
+
+          <div class="support-options-grid">
+            <div class="support-option-item">
+              <h4>
+                <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                Feedback
+              </h4>
+              <p>Tell us how you use ROCIs Tasks and what tools would empower your routine.</p>
+            </div>
+            <div class="support-option-item">
+              <h4>
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                Bug Reports
+              </h4>
+              <p>Found an unexpected issue? Reach out with device details and we'll fix it.</p>
+            </div>
+            <div class="support-option-item">
+              <h4>
+                <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                Feature Requests
+              </h4>
+              <p>Have an idea for a widget, schedule sync, or integration? Let us know!</p>
+            </div>
+          </div>
         </div>
       </div>
     </section>
+
+    <!-- Toast Notification for Copy -->
+    <div id="toast-notification" class="toast-notification" role="status" aria-live="polite">
+      <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+      <span>Copied email address to clipboard!</span>
+    </div>
 
     <footer>
       <div class="container">
@@ -82,7 +137,7 @@
           <span style="font-family: 'Neuton', serif; font-size: 1.4rem; font-weight: 700; color: var(--text);">ROCIs Apps</span>
         </div>
         <div class="footer-links">
-          <a href="index.html#apps">Apps</a>
+          <a href="index.html#apps">Features</a>
           <a href="index.html#screenshots">Screenshots</a>
           <a href="about.html">About</a>
           <a href="contact.html">Contact</a>

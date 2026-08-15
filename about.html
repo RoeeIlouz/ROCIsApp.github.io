@@ -12,15 +12,36 @@
     </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
     <title>About | ROCIs Apps</title>
     <meta
       name="description"
-      content="Learn about ROCIs Apps - A passionate project dedicated to building high-performance productivity tools for the modern student."
+      content="Learn about ROCIs Apps - Dedicated to building high-performance productivity tools designed clean and engineered smart."
     />
+    <link rel="canonical" href="https://rocisapps.com/about.html" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://rocisapps.com/about.html" />
+    <meta property="og:title" content="About | ROCIs Apps" />
+    <meta property="og:description" content="Dedicated to building high-performance productivity tools designed clean and engineered smart." />
+    <meta property="og:image" content="https://rocisapps.com/Assets/ROCIsApps-logo/cover.png" />
+    <meta property="og:site_name" content="ROCIs Apps" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://rocisapps.com/about.html" />
+    <meta name="twitter:title" content="About | ROCIs Apps" />
+    <meta name="twitter:description" content="Dedicated to building high-performance productivity tools designed clean and engineered smart." />
+    <meta name="twitter:image" content="https://rocisapps.com/Assets/ROCIsApps-logo/cover.png" />
+
     <link rel="icon" type="image/png" href="Assets/ROCIsApps-logo/ultra-modern-continuous-monoline-vector-logo-combi.png" />
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+    <!-- Skip to main content link -->
+    <a href="#about" class="skip-link">Skip to main content</a>
+
     <nav>
       <div class="container nav-content">
         <a href="index.html#home" class="logo">
@@ -28,26 +49,21 @@
           <span class="logo-text">ROCIs Apps</span>
         </a>
         <div class="nav-links" id="nav-links">
-          <a href="index.html#apps">Apps</a>
+          <a href="index.html#apps">Features</a>
           <a href="index.html#screenshots">Screenshots</a>
-          <a href="about.html">About</a>
+          <a href="about.html" class="active">About</a>
           <a href="contact.html" class="btn btn-primary">Contact Us</a>
         </div>
-        <div style="display: flex; align-items: center; gap: 1rem;">
+        <div class="nav-actions">
           <button
             id="theme-toggle"
-            style="
-              background: none;
-              border: none;
-              cursor: pointer;
-              font-size: 1.2rem;
-            "
-            aria-label="Toggle Theme"
+            class="theme-toggle-btn"
+            aria-label="Toggle visual theme"
           >
-            🌓
+            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
           </button>
-          <button class="hamburger" id="hamburger" aria-label="Toggle Menu">
-            ☰
+          <button class="hamburger" id="hamburger" aria-label="Toggle navigation menu" aria-expanded="false">
+            <svg viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
           </button>
         </div>
       </div>
@@ -56,23 +72,27 @@
     <section id="about" class="hero contact" style="padding: 11rem 0 6rem; min-height: 80vh; display: flex; align-items: center; justify-content: center;">
       <div class="glow-orb"></div>
       <div class="container">
-        <div class="card animate" style="padding: 4rem; text-align: center; max-width: 900px; margin: 0 auto;">
+        <div class="card animate" style="padding: 4rem 3rem; text-align: center; max-width: 920px; margin: 0 auto;">
           <div class="hero-brand-pill" style="margin-bottom: 1.5rem;">
             <img src="Assets/ROCIsApps-logo/ultra-modern-continuous-monoline-vector-logo-combi.png" alt="ROCIs Apps" style="width: 18px; height: 18px; border-radius: 4px; object-fit: contain;" />
             <span>Designed clean, Engineered smart</span>
           </div>
-          <h1 style="font-size: 3.5rem; margin-bottom: 1.5rem;">Built for the Modern Learner</h1>
+          <h1 style="font-size: 3.4rem; margin-bottom: 1.5rem;">Built for Focused Productivity</h1>
           <p style="font-size: 1.2rem; line-height: 1.8; margin-bottom: 2rem; color: var(--text);">
-            ROCIs Tasks was born from the realization that students, researchers, and busy creators need tools that are as dynamic and adaptable as their workflows. Designed to eliminate cognitive overload, it provides an intuitive, premium interface for keeping your daily priorities structured and effortless.
+            ROCIs Tasks was created with a clear vision: modern students, researchers, and creators need tools that eliminate cognitive clutter rather than adding to it. We engineer workspaces that feel effortless, responsive, and visually harmonious.
           </p>
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 2rem; margin-top: 3rem; text-align: left;">
-             <div>
-                <h3 style="margin-bottom: 0.75rem; color: var(--primary);">Action-Oriented Design</h3>
-                <p style="color: var(--text-muted);">Deconstruct heavy workloads and track milestones cleanly. Turn overwhelming to-dos into manageable checklists with a user interface crafted specifically for deep focus.</p>
+             <div class="support-option-item">
+                <h3 style="margin-bottom: 0.75rem; color: var(--primary); font-size: 1.3rem;">Action-Oriented Architecture</h3>
+                <p style="color: var(--text-muted); line-height: 1.7;">Turn overwhelming to-dos into manageable checklists with nested subtasks, file attachments, and flexible recurrence rules designed specifically for deep focus.</p>
              </div>
-             <div>
-                <h3 style="margin-bottom: 0.75rem; color: var(--accent);">Native Performance</h3>
-                <p style="color: var(--text-muted);">We believe your tools should never get in the way of your flow. That is why we prioritize fluid interactions, offline-first reliability, and clean system integrations.</p>
+             <div class="support-option-item">
+                <h3 style="margin-bottom: 0.75rem; color: var(--accent); font-size: 1.3rem;">Offline-First Reliability</h3>
+                <p style="color: var(--text-muted); line-height: 1.7;">Your tools should never stutter. With instant local Hive caching, seamless background Firestore synchronization, and native Android widgets, your tasks are always ready.</p>
+             </div>
+             <div class="support-option-item">
+                <h3 style="margin-bottom: 0.75rem; color: var(--secondary); font-size: 1.3rem;">Privacy by Principle</h3>
+                <p style="color: var(--text-muted); line-height: 1.7;">Zero ads, zero intrusive trackers, and zero compromises. Your personal schedules and tasks remain your private property, encrypted and never fed into AI training models.</p>
              </div>
           </div>
         </div>
@@ -86,7 +106,7 @@
           <span style="font-family: 'Neuton', serif; font-size: 1.4rem; font-weight: 700; color: var(--text);">ROCIs Apps</span>
         </div>
         <div class="footer-links">
-          <a href="index.html#apps">Apps</a>
+          <a href="index.html#apps">Features</a>
           <a href="index.html#screenshots">Screenshots</a>
           <a href="about.html">About</a>
           <a href="contact.html">Contact</a>
