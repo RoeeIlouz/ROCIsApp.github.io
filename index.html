@@ -38,6 +38,54 @@
 
     <link rel="icon" type="image/png" href="Assets/ROCIsApps-logo/ultra-modern-continuous-monoline-vector-logo-combi.png" />
     <link rel="stylesheet" href="style.css" />
+
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://rocisapps.com/#organization",
+          "name": "ROCIs Apps",
+          "url": "https://rocisapps.com/",
+          "logo": "https://rocisapps.com/Assets/ROCIsApps-logo/ultra-modern-continuous-monoline-vector-logo-combi.png",
+          "slogan": "Designed clean, Engineered smart",
+          "contactPoint": {
+            "@type": "ContactPoint",
+            "email": "support@rocisapps.com",
+            "contactType": "customer support"
+          }
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://rocisapps.com/#website",
+          "url": "https://rocisapps.com/",
+          "name": "ROCIs Apps",
+          "publisher": {
+            "@id": "https://rocisapps.com/#organization"
+          }
+        },
+        {
+          "@type": "SoftwareApplication",
+          "@id": "https://rocisapps.com/#application",
+          "name": "ROCIs Tasks",
+          "applicationCategory": "ProductivityApplication",
+          "operatingSystem": "Android, Web",
+          "description": "Smart productivity, task management, checklists, attachments, natural language input, offline synchronization, and seamless Google Calendar integration.",
+          "image": "https://rocisapps.com/Assets/ROCIsTasks.png",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+          },
+          "publisher": {
+            "@id": "https://rocisapps.com/#organization"
+          }
+        }
+      ]
+    }
+    </script>
   </head>
   <body>
     <!-- Skip to main content link for accessibility -->
