@@ -149,7 +149,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- Screenshots Lightbox Modal ---
+    // --- Screenshots Gallery Filtering & Lightbox Modal ---
+    const galleryTabBtns = document.querySelectorAll('.gallery-tab-btn');
     const screenshotCards = document.querySelectorAll('.screenshot-card');
     const lightbox = document.getElementById('screenshot-lightbox');
     const lightboxImg = document.getElementById('lightbox-img');
@@ -159,30 +160,75 @@ document.addEventListener('DOMContentLoaded', () => {
     const lightboxNext = document.getElementById('lightbox-next');
 
     let currentScreenshotIndex = 0;
-    const screenshotData = [];
+    let activeScreenshotData = [];
 
-    screenshotCards.forEach((card, index) => {
-        const img = card.querySelector('.screenshot-img');
-        const title = card.querySelector('h3') ? card.querySelector('h3').textContent : '';
-        const desc = card.querySelector('p') ? card.querySelector('p').textContent : '';
+    const refreshActiveScreenshots = () => {
+        activeScreenshotData = [];
+        const visibleCards = document.querySelectorAll('.screenshot-card:not(.hidden)');
+        visibleCards.forEach((card, index) => {
+            const img = card.querySelector('.screenshot-img');
+            const title = card.querySelector('h3') ? card.querySelector('h3').textContent : '';
+            const desc = card.querySelector('p') ? card.querySelector('p').textContent : '';
 
-        if (img) {
-            screenshotData.push({
-                src: img.getAttribute('src'),
-                alt: img.getAttribute('alt') || title,
-                title: title,
-                desc: desc
-            });
+            if (img) {
+                activeScreenshotData.push({
+                    src: img.getAttribute('src'),
+                    alt: img.getAttribute('alt') || title,
+                    title: title,
+                    desc: desc
+                });
 
-            card.addEventListener('click', () => {
-                openLightbox(index);
-            });
-        }
+                // Attach click listener for opening lightbox
+                card.onclick = () => {
+                    openLightbox(index);
+                };
+            }
+        });
+    };
+
+    const filterGallery = (category) => {
+        screenshotCards.forEach(card => {
+            const app = card.getAttribute('data-app') || 'tasks';
+            if (category === 'all' || app === category) {
+                card.classList.remove('hidden');
+            } else {
+                card.classList.add('hidden');
+            }
+        });
+
+        galleryTabBtns.forEach(btn => {
+            if (btn.getAttribute('data-gallery') === category) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
+        });
+
+        refreshActiveScreenshots();
+    };
+
+    galleryTabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const cat = btn.getAttribute('data-gallery') || 'all';
+            filterGallery(cat);
+        });
     });
 
+    // Initial load of screenshots
+    refreshActiveScreenshots();
+
+    // Deep link helper for schedule previews
+    window.switchScreenshotGallery = (category) => {
+        filterGallery(category);
+        const section = document.getElementById('screenshots');
+        if (section) {
+            section.scrollIntoView({ behavior: 'smooth' });
+        }
+    };
+
     const updateLightboxContent = (index) => {
-        if (!screenshotData[index]) return;
-        const item = screenshotData[index];
+        if (!activeScreenshotData[index]) return;
+        const item = activeScreenshotData[index];
         if (lightboxImg) {
             lightboxImg.src = item.src;
             lightboxImg.alt = item.alt;
@@ -194,7 +240,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const openLightbox = (index) => {
-        if (!lightbox) return;
+        if (!lightbox || activeScreenshotData.length === 0) return;
         updateLightboxContent(index);
         lightbox.classList.add('active');
         document.body.style.overflow = 'hidden';
@@ -216,7 +262,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (lightboxPrev) {
         lightboxPrev.addEventListener('click', (e) => {
             e.stopPropagation();
-            const newIndex = (currentScreenshotIndex - 1 + screenshotData.length) % screenshotData.length;
+            if (activeScreenshotData.length === 0) return;
+            const newIndex = (currentScreenshotIndex - 1 + activeScreenshotData.length) % activeScreenshotData.length;
             updateLightboxContent(newIndex);
         });
     }
@@ -224,7 +271,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (lightboxNext) {
         lightboxNext.addEventListener('click', (e) => {
             e.stopPropagation();
-            const newIndex = (currentScreenshotIndex + 1) % screenshotData.length;
+            if (activeScreenshotData.length === 0) return;
+            const newIndex = (currentScreenshotIndex + 1) % activeScreenshotData.length;
             updateLightboxContent(newIndex);
         });
     }
@@ -242,10 +290,12 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.key === 'Escape') {
             closeLightbox();
         } else if (e.key === 'ArrowLeft') {
-            const newIndex = (currentScreenshotIndex - 1 + screenshotData.length) % screenshotData.length;
+            if (activeScreenshotData.length === 0) return;
+            const newIndex = (currentScreenshotIndex - 1 + activeScreenshotData.length) % activeScreenshotData.length;
             updateLightboxContent(newIndex);
         } else if (e.key === 'ArrowRight') {
-            const newIndex = (currentScreenshotIndex + 1) % screenshotData.length;
+            if (activeScreenshotData.length === 0) return;
+            const newIndex = (currentScreenshotIndex + 1) % activeScreenshotData.length;
             updateLightboxContent(newIndex);
         }
     });

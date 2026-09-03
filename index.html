@@ -108,7 +108,8 @@
           <span class="logo-text">ROCIs Apps</span>
         </a>
         <div class="nav-links" id="nav-links">
-          <a href="#apps">Features</a>
+          <a href="#apps">Tasks</a>
+          <a href="#schedule">Schedule <span style="font-size: 0.65rem; background: rgba(0, 191, 165, 0.2); color: #00BFA5; padding: 2px 6px; border-radius: 6px; font-weight: 700; margin-left: 4px;">WIP</span></a>
           <a href="#screenshots">Screenshots</a>
           <a href="about.html">About</a>
           <a href="contact.html" class="btn btn-primary">Contact Us</a>
@@ -323,17 +324,164 @@
       </div>
     </section>
 
+    <!-- ROCIs Schedule Showcase Section -->
+    <section id="schedule" class="container showcase-section" style="margin-top: 5rem;">
+      <div class="showcase-content" style="flex-direction: row-reverse;">
+        <div class="showcase-text animate">
+          <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+            <img src="Assets/ROCIsSchedule.png" alt="ROCIs Schedule App Icon" style="width: 52px; height: 52px; border-radius: 14px; box-shadow: 0 6px 18px rgba(0, 191, 165, 0.22); object-fit: cover;" />
+            <div>
+              <span class="badge badge-wip" style="margin-bottom: 0.25rem; display: inline-block;">In Active Development &bull; Coming Soon</span>
+              <h2 style="margin: 0; line-height: 1.1; background: linear-gradient(135deg, #00BFA5, #64FFDA); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">ROCIs Schedule</h2>
+            </div>
+          </div>
+          <p class="lead">Your complete academic companion and visual timetable.</p>
+          <p class="description">
+            Organize university lectures, recurring lab sessions, assignment milestones, and exam countdowns with seamless cloud sync, smart class notifications, and university .ics calendar imports.
+          </p>
+          <ul class="features-list">
+            <li>
+              <div class="feature-icon" style="background: rgba(0, 191, 165, 0.15); color: #00BFA5;">
+                <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+              </div>
+              <div>
+                <strong>Weekly Visual Timetable & Day Strips</strong>
+                <p>Course-color-coded weekly schedule with smooth horizontal date navigation and glassmorphic lecture cards.</p>
+              </div>
+            </li>
+            <li>
+              <div class="feature-icon" style="background: rgba(0, 191, 165, 0.15); color: #00BFA5;">
+                <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+              </div>
+              <div>
+                <strong>Live Exam Countdown & GPA Tracker</strong>
+                <p>Pinned upcoming exam countdowns, semester grade logs, and real-time weighted 4.0 GPA calculations.</p>
+              </div>
+            </li>
+            <li>
+              <div class="feature-icon" style="background: rgba(0, 191, 165, 0.15); color: #00BFA5;">
+                <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+              </div>
+              <div>
+                <strong>One-Tap University .ICS Importer</strong>
+                <p>Instantly populate your entire semester schedule directly from Canvas, Moodle, or Google Calendar exports.</p>
+              </div>
+            </li>
+            <li>
+              <div class="feature-icon" style="background: rgba(0, 191, 165, 0.15); color: #00BFA5;">
+                <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+              </div>
+              <div>
+                <strong>Smart Lecture Alarms & Location Reminders</strong>
+                <p>Never show up late with automated notifications before class displaying room numbers and instructor info.</p>
+              </div>
+            </li>
+            <li>
+              <div class="feature-icon" style="background: rgba(0, 191, 165, 0.15); color: #00BFA5;">
+                <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+              </div>
+              <div>
+                <strong>Seamless ROCIs Tasks Synergy</strong>
+                <p>Sync course assignments and exam preparation deadlines straight into ROCIs Tasks for unified daily action.</p>
+              </div>
+            </li>
+          </ul>
+          <div class="cta-group" style="flex-wrap: wrap;">
+            <button onclick="switchScreenshotGallery('schedule')" class="btn btn-primary" style="background: #00BFA5; border-color: #00BFA5; gap: 0.5rem; cursor: pointer;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+              <span>View Screenshots</span>
+            </button>
+            <a href="https://github.com/RoeeIlouz/ROCIs-Schedule" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="border-color: rgba(0, 191, 165, 0.4); color: #00BFA5; gap: 0.5rem;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+              <span>Explore on GitHub</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Visual Schedule Preview Card -->
+        <div class="showcase-visual animate" style="animation-delay: 0.2s">
+          <div class="phone-frame" style="box-shadow: 0 25px 60px -15px rgba(0, 191, 165, 0.22); border-color: rgba(0, 191, 165, 0.25);">
+            <div class="phone-notch"></div>
+            <div class="phone-screen">
+              <div class="app-simulator" style="background: radial-gradient(circle at top right, rgba(0, 191, 165, 0.12), transparent 70%), #0B0E17;">
+                <div class="app-header">
+                  <div class="app-title-area">
+                    <img src="Assets/ROCIsSchedule.png" alt="ROCIs Schedule Icon" class="app-logo-icon" />
+                    <div>
+                      <h4 class="app-title-text">ROCIs Schedule</h4>
+                      <span class="app-subtitle-text" style="color: #00BFA5;">Academic Timetable</span>
+                    </div>
+                  </div>
+                  <div style="background: rgba(0, 191, 165, 0.15); border: 1px solid rgba(0, 191, 165, 0.3); border-radius: 12px; padding: 4px 10px; color: #00BFA5; font-size: 0.75rem; font-weight: 700;">
+                    3.92 GPA
+                  </div>
+                </div>
+
+                <!-- Timetable preview items -->
+                <div style="display: flex; flex-direction: column; gap: 10px; padding: 12px 0;">
+                  <div style="background: rgba(33, 150, 243, 0.12); border: 1px solid rgba(33, 150, 243, 0.25); border-radius: 14px; padding: 12px; backdrop-filter: blur(10px);">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                      <span style="font-weight: 700; color: #90CAF9; font-size: 0.9rem;">CS201 Data Structures</span>
+                      <span style="font-size: 0.75rem; color: #64B5F6; background: rgba(33, 150, 243, 0.2); padding: 2px 8px; border-radius: 6px;">10:00 - 12:00</span>
+                    </div>
+                    <div style="font-size: 0.8rem; color: rgba(255, 255, 255, 0.6); margin-top: 4px;">
+                      Hall B &bull; Prof. Alan Turing
+                    </div>
+                  </div>
+
+                  <div style="background: rgba(171, 71, 188, 0.12); border: 1px solid rgba(171, 71, 188, 0.25); border-radius: 14px; padding: 12px; backdrop-filter: blur(10px);">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                      <span style="font-weight: 700; color: #CE93D8; font-size: 0.9rem;">MATH102 Linear Algebra</span>
+                      <span style="font-size: 0.75rem; color: #BA68C8; background: rgba(171, 71, 188, 0.2); padding: 2px 8px; border-radius: 6px;">13:00 - 15:00</span>
+                    </div>
+                    <div style="font-size: 0.8rem; color: rgba(255, 255, 255, 0.6); margin-top: 4px;">
+                      Math Bldg 204 &bull; Recitation
+                    </div>
+                  </div>
+
+                  <div style="background: rgba(255, 82, 82, 0.12); border: 1px solid rgba(255, 82, 82, 0.3); border-radius: 14px; padding: 12px; backdrop-filter: blur(10px);">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                      <span style="font-weight: 700; color: #FF8A80; font-size: 0.9rem;">🚨 CS201 Midterm Exam</span>
+                      <span style="font-size: 0.75rem; color: #FF5252; font-weight: 700; background: rgba(255, 82, 82, 0.2); padding: 2px 8px; border-radius: 6px;">In 3 days</span>
+                    </div>
+                    <div style="font-size: 0.8rem; color: rgba(255, 255, 255, 0.6); margin-top: 4px;">
+                      Auditorium A &bull; 09:00 AM
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- App Screenshots Gallery Section -->
     <section id="screenshots" class="container screenshots-section">
       <div class="section-header animate">
         <span class="badge">Visual Experience</span>
         <h2>Designed for Total Clarity</h2>
-        <p>Take a tour of the intuitive interface designed to keep you focused on what matters most. Click any preview to explore in high resolution.</p>
+        <p>Take a tour of our interfaces designed to keep you focused on what matters most. Click any preview to explore in high resolution.</p>
+      </div>
+
+      <!-- Gallery Filter Tabs -->
+      <div class="gallery-tabs animate">
+        <button class="gallery-tab-btn active" data-gallery="all">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+          <span>All Previews</span>
+        </button>
+        <button class="gallery-tab-btn" data-gallery="tasks">
+          <span>ROCIs Tasks</span>
+        </button>
+        <button class="gallery-tab-btn" data-gallery="schedule">
+          <span>ROCIs Schedule</span>
+          <span class="badge-wip">WIP</span>
+        </button>
       </div>
 
       <div class="screenshots-grid animate">
-        <!-- Screenshot 1 -->
-        <div class="screenshot-card" role="button" tabindex="0" aria-label="View screenshot: Track Daily Progress">
+        <!-- Tasks Screenshot 1 -->
+        <div class="screenshot-card" data-app="tasks" role="button" tabindex="0" aria-label="View screenshot: Track Daily Progress">
           <div class="zoom-hint" title="Zoom Screenshot">
             <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
           </div>
@@ -346,8 +494,8 @@
           </div>
         </div>
 
-        <!-- Screenshot 2 -->
-        <div class="screenshot-card" role="button" tabindex="0" aria-label="View screenshot: Unified Calendar">
+        <!-- Tasks Screenshot 2 -->
+        <div class="screenshot-card" data-app="tasks" role="button" tabindex="0" aria-label="View screenshot: Unified Calendar">
           <div class="zoom-hint" title="Zoom Screenshot">
             <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
           </div>
@@ -360,8 +508,8 @@
           </div>
         </div>
 
-        <!-- Screenshot 3 -->
-        <div class="screenshot-card" role="button" tabindex="0" aria-label="View screenshot: Color-Coded Categories">
+        <!-- Tasks Screenshot 3 -->
+        <div class="screenshot-card" data-app="tasks" role="button" tabindex="0" aria-label="View screenshot: Color-Coded Categories">
           <div class="zoom-hint" title="Zoom Screenshot">
             <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
           </div>
@@ -374,8 +522,8 @@
           </div>
         </div>
 
-        <!-- Screenshot 4 -->
-        <div class="screenshot-card" role="button" tabindex="0" aria-label="View screenshot: Rapid Task Creation">
+        <!-- Tasks Screenshot 4 -->
+        <div class="screenshot-card" data-app="tasks" role="button" tabindex="0" aria-label="View screenshot: Rapid Task Creation">
           <div class="zoom-hint" title="Zoom Screenshot">
             <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
           </div>
@@ -388,8 +536,8 @@
           </div>
         </div>
 
-        <!-- Screenshot 5 (Added) -->
-        <div class="screenshot-card" role="button" tabindex="0" aria-label="View screenshot: Dark Modes & Analytics">
+        <!-- Tasks Screenshot 5 -->
+        <div class="screenshot-card" data-app="tasks" role="button" tabindex="0" aria-label="View screenshot: Dark Modes & Analytics">
           <div class="zoom-hint" title="Zoom Screenshot">
             <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
           </div>
@@ -399,6 +547,108 @@
           <div class="screenshot-caption">
             <h3>Dark Modes & Stats</h3>
             <p>True AMOLED theme, weekly productivity stats, and home screen widgets.</p>
+          </div>
+        </div>
+
+        <!-- Schedule Screenshot 1 (WIP) -->
+        <div class="screenshot-card" data-app="schedule" role="button" tabindex="0" aria-label="View screenshot: Weekly Timetable">
+          <div class="zoom-hint" title="Zoom Screenshot">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
+          </div>
+          <div class="screenshot-img-wrapper">
+            <img src="Assets/ROCIsSchedule-screenshots/screenshot_1_hero.jpg" alt="Weekly Timetable and Day Navigation" class="screenshot-img" loading="lazy" />
+          </div>
+          <div class="screenshot-caption">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px;">
+              <h3 style="margin: 0;">Weekly Timetable</h3>
+              <span class="badge-wip">Schedule</span>
+            </div>
+            <p>Day-strip navigation with live event dots, category filters, and lecture room locations.</p>
+          </div>
+        </div>
+
+        <!-- Schedule Screenshot 2 (WIP) -->
+        <div class="screenshot-card" data-app="schedule" role="button" tabindex="0" aria-label="View screenshot: Live Exam Countdown">
+          <div class="zoom-hint" title="Zoom Screenshot">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
+          </div>
+          <div class="screenshot-img-wrapper">
+            <img src="Assets/ROCIsSchedule-screenshots/screenshot_2_exams.jpg" alt="Exam Countdown Alerts" class="screenshot-img" loading="lazy" />
+          </div>
+          <div class="screenshot-caption">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px;">
+              <h3 style="margin: 0;">Exam Countdowns</h3>
+              <span class="badge-wip">Schedule</span>
+            </div>
+            <p>Impending exam countdown banners with classroom badges, professor tags, and alerts.</p>
+          </div>
+        </div>
+
+        <!-- Schedule Screenshot 3 (WIP) -->
+        <div class="screenshot-card" data-app="schedule" role="button" tabindex="0" aria-label="View screenshot: Academic GPA Tracker">
+          <div class="zoom-hint" title="Zoom Screenshot">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
+          </div>
+          <div class="screenshot-img-wrapper">
+            <img src="Assets/ROCIsSchedule-screenshots/screenshot_3_gpa.jpg" alt="GPA Calculator and Academic Overview" class="screenshot-img" loading="lazy" />
+          </div>
+          <div class="screenshot-caption">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px;">
+              <h3 style="margin: 0;">GPA Overview</h3>
+              <span class="badge-wip">Schedule</span>
+            </div>
+            <p>Weighted 4.0 GPA calculation supporting decimal course credits and semester simulations.</p>
+          </div>
+        </div>
+
+        <!-- Schedule Screenshot 4 (WIP) -->
+        <div class="screenshot-card" data-app="schedule" role="button" tabindex="0" aria-label="View screenshot: Assignments and Tasks Bridge">
+          <div class="zoom-hint" title="Zoom Screenshot">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
+          </div>
+          <div class="screenshot-img-wrapper">
+            <img src="Assets/ROCIsSchedule-screenshots/screenshot_4_tasks.jpg" alt="Assignments Management and Tasks Bridge" class="screenshot-img" loading="lazy" />
+          </div>
+          <div class="screenshot-caption">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px;">
+              <h3 style="margin: 0;">Tasks Bridge</h3>
+              <span class="badge-wip">Schedule</span>
+            </div>
+            <p>Assignment tracking with direct 1-tap ecosystem bridge export into ROCIs Tasks.</p>
+          </div>
+        </div>
+
+        <!-- Schedule Screenshot 5 (WIP) -->
+        <div class="screenshot-card" data-app="schedule" role="button" tabindex="0" aria-label="View screenshot: ICS Calendar Import">
+          <div class="zoom-hint" title="Zoom Screenshot">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
+          </div>
+          <div class="screenshot-img-wrapper">
+            <img src="Assets/ROCIsSchedule-screenshots/screenshot_5_import.jpg" alt="ICS Calendar Import" class="screenshot-img" loading="lazy" />
+          </div>
+          <div class="screenshot-caption">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px;">
+              <h3 style="margin: 0;">.ICS Importer</h3>
+              <span class="badge-wip">Schedule</span>
+            </div>
+            <p>One-tap semester timetable import from Canvas, Moodle, and Google Calendar.</p>
+          </div>
+        </div>
+
+        <!-- Schedule Screenshot 6 (WIP) -->
+        <div class="screenshot-card" data-app="schedule" role="button" tabindex="0" aria-label="View screenshot: AMOLED Pitch-Black Mode">
+          <div class="zoom-hint" title="Zoom Screenshot">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
+          </div>
+          <div class="screenshot-img-wrapper">
+            <img src="Assets/ROCIsSchedule-screenshots/screenshot_6_amoled.jpg" alt="AMOLED Pitch Black Theme" class="screenshot-img" loading="lazy" />
+          </div>
+          <div class="screenshot-caption">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px;">
+              <h3 style="margin: 0;">AMOLED Dark</h3>
+              <span class="badge-wip">Schedule</span>
+            </div>
+            <p>Battery-saving pure black mode (#000000) with frosted glassmorphic cards.</p>
           </div>
         </div>
       </div>
@@ -430,7 +680,8 @@
           <span style="font-family: 'Neuton', serif; font-size: 1.4rem; font-weight: 700; color: var(--text);">ROCIs Apps</span>
         </div>
         <div class="footer-links">
-          <a href="#apps">Features</a>
+          <a href="#apps">Tasks</a>
+          <a href="#schedule">Schedule</a>
           <a href="#screenshots">Screenshots</a>
           <a href="about.html">About</a>
           <a href="contact.html">Contact</a>
@@ -457,3 +708,5 @@
     <script src="script.js"></script>
   </body>
 </html>
+
+
