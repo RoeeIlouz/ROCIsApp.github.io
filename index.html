@@ -37,7 +37,7 @@
     <meta name="twitter:image" content="https://rocisapps.com/Assets/ROCIsApps-logo/cover.png" />
 
     <link rel="icon" type="image/png" href="Assets/ROCIsApps-logo/ultra-modern-continuous-monoline-vector-logo-combi.png" />
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="style.css?v=2.1.0" />
 
     <!-- Structured Data (JSON-LD) -->
     <script type="application/ld+json">
@@ -466,14 +466,14 @@
 
       <!-- Gallery Filter Tabs -->
       <div class="gallery-tabs animate">
-        <button class="gallery-tab-btn active" data-gallery="all">
+        <button type="button" class="gallery-tab-btn active" data-gallery="all" onclick="window.filterGallery('all')">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
           <span>All Previews</span>
         </button>
-        <button class="gallery-tab-btn" data-gallery="tasks">
+        <button type="button" class="gallery-tab-btn" data-gallery="tasks" onclick="window.filterGallery('tasks')">
           <span>ROCIs Tasks</span>
         </button>
-        <button class="gallery-tab-btn" data-gallery="schedule">
+        <button type="button" class="gallery-tab-btn" data-gallery="schedule" onclick="window.filterGallery('schedule')">
           <span>ROCIs Schedule</span>
           <span class="badge-wip">WIP</span>
         </button>
@@ -705,7 +705,7 @@
       </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script src="script.js?v=2.1.0"></script>
   </body>
 </html>
 

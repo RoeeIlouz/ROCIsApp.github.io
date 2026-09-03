@@ -187,16 +187,21 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const filterGallery = (category) => {
-        screenshotCards.forEach(card => {
+        const allCards = document.querySelectorAll('.screenshot-card');
+        const allBtns = document.querySelectorAll('.gallery-tab-btn');
+
+        allCards.forEach(card => {
             const app = card.getAttribute('data-app') || 'tasks';
             if (category === 'all' || app === category) {
                 card.classList.remove('hidden');
+                card.style.setProperty('display', 'flex', 'important');
             } else {
                 card.classList.add('hidden');
+                card.style.setProperty('display', 'none', 'important');
             }
         });
 
-        galleryTabBtns.forEach(btn => {
+        allBtns.forEach(btn => {
             if (btn.getAttribute('data-gallery') === category) {
                 btn.classList.add('active');
             } else {
@@ -206,11 +211,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
         refreshActiveScreenshots();
     };
+    window.filterGallery = filterGallery;
 
     galleryTabBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
             const cat = btn.getAttribute('data-gallery') || 'all';
-            filterGallery(cat);
+            window.filterGallery(cat);
         });
     });
 
@@ -219,7 +226,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Deep link helper for schedule previews
     window.switchScreenshotGallery = (category) => {
-        filterGallery(category);
+        window.filterGallery(category);
         const section = document.getElementById('screenshots');
         if (section) {
             section.scrollIntoView({ behavior: 'smooth' });

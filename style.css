@@ -1632,6 +1632,9 @@ footer .footer-dev-credit a:hover {
   gap: 12px;
   margin: 1.5rem auto 2.5rem auto;
   flex-wrap: wrap;
+  position: relative;
+  z-index: 10;
+  pointer-events: auto;
 }
 
 .gallery-tab-btn {
@@ -1647,6 +1650,15 @@ footer .footer-dev-credit a:hover {
   display: inline-flex;
   align-items: center;
   gap: 8px;
+  position: relative;
+  z-index: 11;
+  pointer-events: auto;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.gallery-tab-btn * {
+  pointer-events: none;
 }
 
 .gallery-tab-btn:hover {
@@ -1670,4 +1682,9 @@ footer .footer-dev-credit a:hover {
 
 .screenshot-card.hidden {
   display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  height: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
 }
