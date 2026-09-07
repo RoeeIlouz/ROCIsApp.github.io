@@ -360,4 +360,221 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+
+    // --- Dynamic Platform Detection for Hero CTAs ---
+    const primaryHeroCta = document.getElementById('primary-hero-cta');
+    const primaryCtaLabel = document.getElementById('primary-cta-label');
+    const secondaryHeroCta = document.getElementById('secondary-hero-cta');
+    const secondaryCtaLabel = document.getElementById('secondary-cta-label');
+
+    const isAndroid = /Android/i.test(navigator.userAgent);
+    const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+    if (isAndroid) {
+        if (primaryHeroCta && primaryCtaLabel) {
+            primaryHeroCta.href = "https://play.google.com/store/apps/details?id=com.rocisapps.tasks";
+            primaryHeroCta.target = "_blank";
+            primaryHeroCta.rel = "noopener noreferrer";
+            primaryCtaLabel.textContent = "Get it on Google Play";
+        }
+        if (secondaryHeroCta && secondaryCtaLabel) {
+            secondaryHeroCta.href = "https://tasks.rocisapps.com";
+            secondaryHeroCta.target = "_blank";
+            secondaryCtaLabel.textContent = "Launch Web App";
+        }
+    } else {
+        // Desktop / Other: Outcome-oriented primary CTA to interactive demo / workload planner
+        if (primaryHeroCta && primaryCtaLabel) {
+            primaryHeroCta.href = "#interactive-demo";
+            primaryCtaLabel.textContent = "Plan my workload";
+        }
+        if (secondaryHeroCta && secondaryCtaLabel) {
+            secondaryHeroCta.href = "https://tasks.rocisapps.com";
+            secondaryHeroCta.target = "_blank";
+            secondaryCtaLabel.textContent = "Launch Web App";
+        }
+    }
+
+    // --- Interactive 'Try Before Sign-Up' Demo Logic ---
+    const demoTaskInput = document.getElementById('demo-task-input');
+    const demoParseBtn = document.getElementById('demo-parse-btn');
+    const demoChips = document.querySelectorAll('.demo-chip');
+    const demoPreviewTitle = document.getElementById('demo-preview-title');
+    const demoPreviewDueText = document.getElementById('demo-preview-due-text');
+    const demoPreviewSubtasks = document.getElementById('demo-preview-subtasks');
+    const demoDirectCta = document.getElementById('demo-direct-cta');
+
+    const parseAcademicTask = (inputStr) => {
+        const raw = (inputStr || '').trim();
+        if (!raw) {
+            return {
+                title: 'Academic Milestone',
+                dueText: 'Today, 11:59 PM',
+                subtasks: ['Review lecture notes', 'Complete initial outline', 'Submit finalized work']
+            };
+        }
+
+        // Relative Day Detection
+        let dueDay = 'Tomorrow';
+        let dueTime = '5:00 PM';
+        let cleanTitle = raw;
+
+        const timeRegex = /\b(?:at\s+)?((?:1[0-2]|0?[1-9])(?::[0-5][0-9])?\s*(?:am|pm)|(?:[01]?[0-9]|2[0-3]):[0-5][0-9])\b/i;
+        const timeMatch = raw.match(timeRegex);
+        if (timeMatch) {
+            dueTime = timeMatch[1].toUpperCase();
+            if (!dueTime.includes(':') && (dueTime.includes('AM') || dueTime.includes('PM'))) {
+                dueTime = dueTime.replace(/(AM|PM)/i, ':00 $1');
+            }
+            cleanTitle = cleanTitle.replace(timeMatch[0], '');
+        }
+
+        if (/\btomorrow\b/i.test(raw)) {
+            dueDay = 'Tomorrow';
+            cleanTitle = cleanTitle.replace(/\btomorrow\b/gi, '');
+        } else if (/\btoday\b/i.test(raw)) {
+            dueDay = 'Today';
+            cleanTitle = cleanTitle.replace(/\btoday\b/gi, '');
+        } else if (/\bnext\s+monday\b/i.test(raw)) {
+            dueDay = 'Next Monday';
+            cleanTitle = cleanTitle.replace(/\bnext\s+monday\b/gi, '');
+        } else if (/\bfriday\b/i.test(raw)) {
+            dueDay = 'Friday';
+            cleanTitle = cleanTitle.replace(/\bfriday\b/gi, '');
+        } else if (/\bmonday\b/i.test(raw)) {
+            dueDay = 'Monday';
+            cleanTitle = cleanTitle.replace(/\bmonday\b/gi, '');
+        } else if (/\bnext\s+week\b/i.test(raw)) {
+            dueDay = 'Next Week';
+            cleanTitle = cleanTitle.replace(/\bnext\s+week\b/gi, '');
+        }
+
+        // Strip extraneous connector prepositions
+        cleanTitle = cleanTitle.replace(/\b(at|on|due|by|for)\b\s*$/i, '').trim();
+        cleanTitle = cleanTitle.replace(/\s{2,}/g, ' ');
+        if (!cleanTitle) cleanTitle = raw;
+
+        // Context-aware Academic Subtask Generation
+        const lower = raw.toLowerCase();
+        let subtasks = [];
+
+        if (lower.includes('essay') || lower.includes('paper') || lower.includes('thesis')) {
+            subtasks = [
+                'Formulate thesis & gather primary research sources',
+                'Structure outline with topic sentences',
+                'Write complete first draft & arguments',
+                'Proofread citations, bibliography & submit'
+            ];
+        } else if (lower.includes('lab') || lower.includes('report') || lower.includes('experiment')) {
+            subtasks = [
+                'Tabulate raw experimental dataset & compute errors',
+                'Generate plots, regression lines & figures',
+                'Write methodology, observations & discussion',
+                'Format appendix & complete peer review'
+            ];
+        } else if (lower.includes('exam') || lower.includes('midterm') || lower.includes('final') || lower.includes('quiz')) {
+            subtasks = [
+                'Synthesize lecture slides & reading summaries',
+                'Solve past exam papers under timed conditions',
+                'Compile key formula reference sheet',
+                'Conduct final active recall self-assessment'
+            ];
+        } else if (lower.includes('problem set') || lower.includes('pset') || lower.includes('math') || lower.includes('algebra') || lower.includes('physics')) {
+            subtasks = [
+                'Solve core theoretical derivation problems',
+                'Work through application & computational proofs',
+                'Verify solutions against reference bounds',
+                'Scan handwritten steps into PDF submission'
+            ];
+        } else {
+            subtasks = [
+                'Review grading rubric and project requirements',
+                'Outline core milestones and time allocations',
+                'Draft initial deliverable draft',
+                'Final polish and checklist verification'
+            ];
+        }
+
+        return {
+            title: cleanTitle,
+            dueText: `${dueDay}, ${dueTime}`,
+            subtasks: subtasks
+        };
+    };
+
+    const updateDemoPreview = (taskData) => {
+        if (demoPreviewTitle) demoPreviewTitle.textContent = taskData.title;
+        if (demoPreviewDueText) demoPreviewDueText.textContent = taskData.dueText;
+
+        if (demoPreviewSubtasks) {
+            demoPreviewSubtasks.innerHTML = taskData.subtasks.map((st, idx) => `
+                <div class="preview-subtask-item" data-idx="${idx}">
+                    <div class="preview-subtask-checkbox" aria-label="Toggle subtask">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    </div>
+                    <span class="preview-subtask-label">${st}</span>
+                </div>
+            `).join('');
+
+            // Toggle subtask completion in demo
+            demoPreviewSubtasks.querySelectorAll('.preview-subtask-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    item.classList.toggle('completed');
+                });
+            });
+        }
+
+        // Configure task preservation URL
+        const queryParams = new URLSearchParams({
+            intent: 'academic_plan',
+            draftTitle: taskData.title,
+            draftDue: taskData.dueText,
+            draftSubtasks: taskData.subtasks.join('||')
+        });
+
+        const appUrl = `https://tasks.rocisapps.com/?${queryParams.toString()}`;
+
+        if (demoDirectCta) {
+            demoDirectCta.href = appUrl;
+        }
+
+        const handleTaskPreservation = (e) => {
+            try {
+                localStorage.setItem('rocis_draft_task', JSON.stringify(taskData));
+            } catch (_) {}
+        };
+
+        if (demoDirectCta) {
+            demoDirectCta.onclick = handleTaskPreservation;
+        }
+        if (demoParseBtn) {
+            demoParseBtn.onclick = () => {
+                handleTaskPreservation();
+                window.open(appUrl, '_blank', 'noopener,noreferrer');
+            };
+        }
+    };
+
+    if (demoTaskInput) {
+        demoTaskInput.addEventListener('input', () => {
+            const parsed = parseAcademicTask(demoTaskInput.value);
+            updateDemoPreview(parsed);
+        });
+
+        demoChips.forEach(chip => {
+            chip.addEventListener('click', () => {
+                demoChips.forEach(c => c.classList.remove('active'));
+                chip.classList.add('active');
+                const sampleText = chip.getAttribute('data-sample');
+                demoTaskInput.value = sampleText;
+                const parsed = parseAcademicTask(sampleText);
+                updateDemoPreview(parsed);
+            });
+        });
+
+        // Initialize with default sample
+        const initialParsed = parseAcademicTask(demoTaskInput.value);
+        updateDemoPreview(initialParsed);
+    }
 });
+
