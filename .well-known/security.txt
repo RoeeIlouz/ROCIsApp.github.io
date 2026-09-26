@@ -1,0 +1,6 @@
+# Security contact for rocisapps.com, ROCIs Tasks and ROCIs Schedule (RFC 9116)
+Contact: mailto:support@rocisapps.com
+Expires: 2027-09-27T00:00:00.000Z
+Preferred-Languages: en
+Canonical: https://rocisapps.com/.well-known/security.txt
+Policy: https://rocisapps.com/privacy.html

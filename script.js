@@ -1,580 +1,398 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const themeToggle = document.getElementById('theme-toggle');
-    const body = document.body;
+// ROCIs Apps site behaviour.
+// Security notes: no inline handlers, no globals, and no innerHTML with dynamic
+// data — all user-visible text is written with textContent / createElement.
+(() => {
+  'use strict';
 
-    // Theme cycle configuration
-    const themes = ['light', 'dark', 'amoled'];
-    const themeIcons = {
-        light: `<svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>`,
-        dark: `<svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>`,
-        amoled: `<svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 3v18a9 9 0 0 0 0-18z" fill="currentColor"></path></svg>`
-    };
+  const $ = (sel, root = document) => root.querySelector(sel);
+  const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
+  const root = document.documentElement;
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    const updateThemeIcon = (theme) => {
-        if (themeToggle) {
-            themeToggle.innerHTML = themeIcons[theme] || themeIcons.dark;
-            const themeLabel = theme.charAt(0).toUpperCase() + theme.slice(1);
-            themeToggle.setAttribute('aria-label', `Current theme: ${themeLabel}. Click to switch theme.`);
-        }
-    };
-
-    // Check for saved theme (default dark according to guide)
-    const savedTheme = localStorage.getItem('theme') || 'dark';
-    body.setAttribute('data-theme', savedTheme);
-    updateThemeIcon(savedTheme);
-
-    if (themeToggle) {
-        themeToggle.addEventListener('click', () => {
-            const currentTheme = body.getAttribute('data-theme') || 'dark';
-            const currentIndex = themes.indexOf(currentTheme);
-            const nextIndex = (currentIndex + 1) % themes.length;
-            const newTheme = themes[nextIndex];
-            
-            body.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
-            updateThemeIcon(newTheme);
-
-            // Sync simulator preview with global theme if not manually changed
-            const activeSimBubble = document.querySelector('.theme-bubble.active');
-            if (activeSimBubble && !window.simThemeManuallySet) {
-                const correspondingBubble = document.querySelector(`.theme-bubble.${newTheme}`);
-                if (correspondingBubble) {
-                    correspondingBubble.click();
-                    window.simThemeManuallySet = false; // Reset flag since it was triggered programmatically
-                }
-            }
-        });
+  const storage = {
+    get(key) {
+      try { return localStorage.getItem(key); } catch (e) { return null; }
+    },
+    set(key, value) {
+      try { localStorage.setItem(key, value); } catch (e) { /* storage blocked */ }
     }
+  };
 
-    // --- Interactive App Simulator Logic ---
-    const simTaskList = document.getElementById('sim-task-list');
-    const progressCircle = document.querySelector('.progress-ring__circle');
-    const chartPercent = document.getElementById('chart-percent');
-    const statCompleted = document.getElementById('stat-completed');
-    const statPending = document.getElementById('stat-pending');
-    
-    // Initialise circular chart stroke attributes
-    let circumference = 0;
-    if (progressCircle) {
-        const radius = progressCircle.r.baseVal.value;
-        circumference = 2 * Math.PI * radius;
-        progressCircle.style.strokeDasharray = `${circumference} ${circumference}`;
-    }
+  // --- Theme ---------------------------------------------------------------
+  const THEMES = ['light', 'dark', 'amoled'];
+  const THEME_NAMES = { light: 'Light', dark: 'Dark', amoled: 'AMOLED black' };
+  const themeToggle = $('#theme-toggle');
+  const currentTheme = () => {
+    const t = root.getAttribute('data-theme');
+    return THEMES.includes(t) ? t : 'dark';
+  };
 
-    const updateSimulatorProgress = () => {
-        const tasks = document.querySelectorAll('.sim-task-item');
-        const completedTasks = document.querySelectorAll('.sim-task-item.completed');
-        
-        const total = tasks.length;
-        const completed = completedTasks.length;
-        const pending = total - completed;
-        const percent = total > 0 ? Math.round((completed / total) * 100) : 0;
+  const labelThemeToggle = () => {
+    if (!themeToggle) return;
+    const t = currentTheme();
+    const next = THEMES[(THEMES.indexOf(t) + 1) % THEMES.length];
+    themeToggle.setAttribute('aria-label', `Theme: ${THEME_NAMES[t]}. Switch to ${THEME_NAMES[next]}`);
+    themeToggle.title = `Theme: ${THEME_NAMES[t]}`;
+  };
 
-        // Update stats text
-        if (statCompleted) statCompleted.textContent = completed;
-        if (statPending) statPending.textContent = pending;
-        if (chartPercent) chartPercent.textContent = percent;
+  // --- App simulator (declared early so the theme toggle can sync it) ------
+  const simScreen = $('#sim-screen');
+  const swatches = $$('.swatch[data-sim-theme]');
+  let simThemePinned = false;
 
-        // Animate circular chart stroke
-        if (progressCircle && circumference > 0) {
-            const offset = circumference - (percent / 100) * circumference;
-            progressCircle.style.strokeDashoffset = offset;
-        }
-    };
+  const setSimTheme = (theme) => {
+    if (!simScreen || !THEMES.includes(theme)) return;
+    simScreen.setAttribute('data-theme', theme);
+    swatches.forEach((s) => s.setAttribute('aria-pressed', String(s.dataset.simTheme === theme)));
+  };
 
-    // Task click toggles
-    if (simTaskList) {
-        simTaskList.addEventListener('click', (e) => {
-            const taskItem = e.target.closest('.sim-task-item');
-            if (taskItem) {
-                taskItem.classList.toggle('completed');
-                updateSimulatorProgress();
-            }
-        });
-    }
-
-    // Simulator local theme bubbles
-    const simThemeBubbles = document.querySelectorAll('.theme-bubble');
-    const phoneScreen = document.querySelector('.phone-screen');
-    window.simThemeManuallySet = false;
-
-    simThemeBubbles.forEach(bubble => {
-        bubble.addEventListener('click', (e) => {
-            e.stopPropagation();
-            
-            window.simThemeManuallySet = true;
-
-            simThemeBubbles.forEach(b => b.classList.remove('active'));
-            bubble.classList.add('active');
-
-            const targetTheme = bubble.getAttribute('data-sim-theme');
-            if (phoneScreen) {
-                phoneScreen.setAttribute('data-theme', targetTheme);
-            }
-        });
+  if (themeToggle) {
+    labelThemeToggle();
+    themeToggle.addEventListener('click', () => {
+      const next = THEMES[(THEMES.indexOf(currentTheme()) + 1) % THEMES.length];
+      root.setAttribute('data-theme', next);
+      storage.set('theme', next);
+      labelThemeToggle();
+      if (!simThemePinned) setSimTheme(next);
     });
+  }
 
-    // Run initial progress calculation
-    updateSimulatorProgress();
-
-    // Sync initial simulator theme bubble with current global theme
-    const initialGlobalTheme = body.getAttribute('data-theme') || 'dark';
-    const matchingBubble = document.querySelector(`.theme-bubble.${initialGlobalTheme}`);
-    if (matchingBubble) {
-        matchingBubble.classList.add('active');
-        simThemeBubbles.forEach(b => {
-            if (b !== matchingBubble) b.classList.remove('active');
-        });
-        if (phoneScreen) {
-            phoneScreen.setAttribute('data-theme', initialGlobalTheme);
-        }
-    }
-
-    // --- Mobile Hamburger Menu ---
-    const hamburger = document.getElementById('hamburger');
-    const navLinks = document.getElementById('nav-links');
-
-    if (hamburger && navLinks) {
-        hamburger.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
-            const isExpanded = navLinks.classList.contains('active');
-            hamburger.setAttribute('aria-expanded', isExpanded);
-        });
-        
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', () => {
-                navLinks.classList.remove('active');
-                if (hamburger) hamburger.setAttribute('aria-expanded', 'false');
-            });
-        });
-    }
-
-    // --- Screenshots Gallery Filtering & Lightbox Modal ---
-    const galleryTabBtns = document.querySelectorAll('.gallery-tab-btn');
-    const screenshotCards = document.querySelectorAll('.screenshot-card');
-    const lightbox = document.getElementById('screenshot-lightbox');
-    const lightboxImg = document.getElementById('lightbox-img');
-    const lightboxCaption = document.getElementById('lightbox-caption');
-    const lightboxClose = document.getElementById('lightbox-close');
-    const lightboxPrev = document.getElementById('lightbox-prev');
-    const lightboxNext = document.getElementById('lightbox-next');
-
-    let currentScreenshotIndex = 0;
-    let activeScreenshotData = [];
-
-    const refreshActiveScreenshots = () => {
-        activeScreenshotData = [];
-        const visibleCards = document.querySelectorAll('.screenshot-card:not(.hidden)');
-        visibleCards.forEach((card, index) => {
-            const img = card.querySelector('.screenshot-img');
-            const title = card.querySelector('h3') ? card.querySelector('h3').textContent : '';
-            const desc = card.querySelector('p') ? card.querySelector('p').textContent : '';
-
-            if (img) {
-                activeScreenshotData.push({
-                    src: img.getAttribute('src'),
-                    alt: img.getAttribute('alt') || title,
-                    title: title,
-                    desc: desc
-                });
-
-                // Attach click listener for opening lightbox
-                card.onclick = () => {
-                    openLightbox(index);
-                };
-            }
-        });
-    };
-
-    const filterGallery = (category) => {
-        const allCards = document.querySelectorAll('.screenshot-card');
-        const allBtns = document.querySelectorAll('.gallery-tab-btn');
-
-        allCards.forEach(card => {
-            const app = card.getAttribute('data-app') || 'tasks';
-            if (category === 'all' || app === category) {
-                card.classList.remove('hidden');
-                card.style.setProperty('display', 'flex', 'important');
-            } else {
-                card.classList.add('hidden');
-                card.style.setProperty('display', 'none', 'important');
-            }
-        });
-
-        allBtns.forEach(btn => {
-            if (btn.getAttribute('data-gallery') === category) {
-                btn.classList.add('active');
-            } else {
-                btn.classList.remove('active');
-            }
-        });
-
-        refreshActiveScreenshots();
-    };
-    window.filterGallery = filterGallery;
-
-    galleryTabBtns.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            e.preventDefault();
-            const cat = btn.getAttribute('data-gallery') || 'all';
-            window.filterGallery(cat);
-        });
+  setSimTheme(currentTheme());
+  swatches.forEach((s) => {
+    s.addEventListener('click', () => {
+      simThemePinned = true;
+      setSimTheme(s.dataset.simTheme);
     });
+  });
 
-    // Initial load of screenshots
-    refreshActiveScreenshots();
+  const simTasks = $('#sim-tasks');
+  const ring = $('.ring-value');
+  const simPercent = $('#sim-percent');
+  const simDone = $('#sim-done');
+  const simLeft = $('#sim-left');
+  const circumference = ring ? 2 * Math.PI * ring.r.baseVal.value : 0;
 
-    // Deep link helper for schedule previews
-    window.switchScreenshotGallery = (category) => {
-        window.filterGallery(category);
-        const section = document.getElementById('screenshots');
-        if (section) {
-            section.scrollIntoView({ behavior: 'smooth' });
-        }
-    };
-
-    const updateLightboxContent = (index) => {
-        if (!activeScreenshotData[index]) return;
-        const item = activeScreenshotData[index];
-        if (lightboxImg) {
-            lightboxImg.src = item.src;
-            lightboxImg.alt = item.alt;
-        }
-        if (lightboxCaption) {
-            lightboxCaption.innerHTML = `<strong>${item.title}</strong> — ${item.desc}`;
-        }
-        currentScreenshotIndex = index;
-    };
-
-    const openLightbox = (index) => {
-        if (!lightbox || activeScreenshotData.length === 0) return;
-        updateLightboxContent(index);
-        lightbox.classList.add('active');
-        document.body.style.overflow = 'hidden';
-    };
-
-    const closeLightbox = () => {
-        if (!lightbox) return;
-        lightbox.classList.remove('active');
-        document.body.style.overflow = '';
-    };
-
-    if (lightboxClose) {
-        lightboxClose.addEventListener('click', (e) => {
-            e.stopPropagation();
-            closeLightbox();
-        });
+  const updateSimulator = () => {
+    if (!simTasks) return;
+    const items = $$('.check-row', simTasks);
+    const done = items.filter((b) => b.getAttribute('aria-pressed') === 'true').length;
+    const pct = items.length ? Math.round((done / items.length) * 100) : 0;
+    if (simDone) simDone.textContent = String(done);
+    if (simLeft) simLeft.textContent = String(items.length - done);
+    if (simPercent) simPercent.textContent = String(pct);
+    if (ring) {
+      ring.style.strokeDasharray = `${circumference}`;
+      ring.style.strokeDashoffset = `${circumference - (pct / 100) * circumference}`;
     }
+  };
 
-    if (lightboxPrev) {
-        lightboxPrev.addEventListener('click', (e) => {
-            e.stopPropagation();
-            if (activeScreenshotData.length === 0) return;
-            const newIndex = (currentScreenshotIndex - 1 + activeScreenshotData.length) % activeScreenshotData.length;
-            updateLightboxContent(newIndex);
-        });
-    }
+  const toggleCheck = (btn) => {
+    btn.setAttribute('aria-pressed', String(btn.getAttribute('aria-pressed') !== 'true'));
+  };
 
-    if (lightboxNext) {
-        lightboxNext.addEventListener('click', (e) => {
-            e.stopPropagation();
-            if (activeScreenshotData.length === 0) return;
-            const newIndex = (currentScreenshotIndex + 1) % activeScreenshotData.length;
-            updateLightboxContent(newIndex);
-        });
-    }
+  if (simTasks) {
+    simTasks.addEventListener('click', (e) => {
+      const btn = e.target.closest('.check-row');
+      if (!btn) return;
+      toggleCheck(btn);
+      updateSimulator();
+    });
+    updateSimulator();
+  }
 
-    if (lightbox) {
-        lightbox.addEventListener('click', (e) => {
-            if (e.target === lightbox || e.target.classList.contains('lightbox-container')) {
-                closeLightbox();
-            }
-        });
-    }
+  // --- Mobile navigation ---------------------------------------------------
+  const navToggle = $('#nav-toggle');
+  const navLinks = $('#nav-links');
 
+  const setNav = (open) => {
+    if (!navToggle || !navLinks) return;
+    navLinks.classList.toggle('is-open', open);
+    navToggle.setAttribute('aria-expanded', String(open));
+    navToggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+  };
+
+  if (navToggle && navLinks) {
+    navToggle.addEventListener('click', () => setNav(navToggle.getAttribute('aria-expanded') !== 'true'));
+    navLinks.addEventListener('click', (e) => { if (e.target.closest('a')) setNav(false); });
     document.addEventListener('keydown', (e) => {
-        if (!lightbox || !lightbox.classList.contains('active')) return;
-        if (e.key === 'Escape') {
-            closeLightbox();
-        } else if (e.key === 'ArrowLeft') {
-            if (activeScreenshotData.length === 0) return;
-            const newIndex = (currentScreenshotIndex - 1 + activeScreenshotData.length) % activeScreenshotData.length;
-            updateLightboxContent(newIndex);
-        } else if (e.key === 'ArrowRight') {
-            if (activeScreenshotData.length === 0) return;
-            const newIndex = (currentScreenshotIndex + 1) % activeScreenshotData.length;
-            updateLightboxContent(newIndex);
-        }
+      if (e.key === 'Escape' && navToggle.getAttribute('aria-expanded') === 'true') {
+        setNav(false);
+        navToggle.focus();
+      }
+    });
+  }
+
+  // --- Screenshot gallery: tabs ---------------------------------------------
+  const tabs = $$('[role="tab"][data-app]');
+
+  const selectTab = (tab, focus = false) => {
+    tabs.forEach((t) => {
+      const selected = t === tab;
+      t.setAttribute('aria-selected', String(selected));
+      t.tabIndex = selected ? 0 : -1;
+      const panel = document.getElementById(t.getAttribute('aria-controls'));
+      if (panel) panel.hidden = !selected;
+    });
+    if (focus) tab.focus();
+  };
+
+  tabs.forEach((tab, i) => {
+    tab.addEventListener('click', () => selectTab(tab));
+    tab.addEventListener('keydown', (e) => {
+      let next = null;
+      if (e.key === 'ArrowRight') next = tabs[(i + 1) % tabs.length];
+      else if (e.key === 'ArrowLeft') next = tabs[(i - 1 + tabs.length) % tabs.length];
+      else if (e.key === 'Home') next = tabs[0];
+      else if (e.key === 'End') next = tabs[tabs.length - 1];
+      if (next) {
+        e.preventDefault();
+        selectTab(next, true);
+      }
+    });
+  });
+
+  $$('[data-show-gallery]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const tab = tabs.find((t) => t.dataset.app === btn.dataset.showGallery);
+      if (tab) selectTab(tab);
+      const section = $('#screenshots');
+      if (section) section.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth' });
+    });
+  });
+
+  // --- Screenshot gallery: lightbox (native <dialog>) ------------------------
+  const lightbox = $('#lightbox');
+  const lbImg = $('#lb-img');
+  const lbTitle = $('#lb-title');
+  const lbDesc = $('#lb-desc');
+  const lbCount = $('#lb-count');
+  let lbItems = [];
+  let lbIndex = 0;
+
+  const showShot = (index) => {
+    if (!lbItems.length) return;
+    lbIndex = (index + lbItems.length) % lbItems.length;
+    const shot = lbItems[lbIndex];
+    const img = $('img', shot);
+    lbImg.src = shot.dataset.full || img.currentSrc || img.src;
+    lbImg.alt = img.alt;
+    lbTitle.textContent = $('.shot-caption strong', shot)?.textContent || '';
+    lbDesc.textContent = $('.shot-caption span', shot)?.textContent || '';
+    lbCount.textContent = `${lbIndex + 1} / ${lbItems.length}`;
+  };
+
+  if (lightbox && typeof lightbox.showModal === 'function') {
+    $$('.shot').forEach((shot) => {
+      shot.addEventListener('click', () => {
+        lbItems = $$('.shot', shot.closest('[role="tabpanel"]') || document);
+        showShot(lbItems.indexOf(shot));
+        lightbox.showModal();
+      });
     });
 
-    // --- Copy Email to Clipboard with Toast ---
-    const copyEmailBtn = document.getElementById('copy-email-btn');
-    const toast = document.getElementById('toast-notification');
+    $('#lb-close')?.addEventListener('click', () => lightbox.close());
+    $('#lb-prev')?.addEventListener('click', () => showShot(lbIndex - 1));
+    $('#lb-next')?.addEventListener('click', () => showShot(lbIndex + 1));
+    // Click on the backdrop (outside the figure) closes.
+    lightbox.addEventListener('click', (e) => { if (e.target === lightbox) lightbox.close(); });
+    lightbox.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') showShot(lbIndex - 1);
+      else if (e.key === 'ArrowRight') showShot(lbIndex + 1);
+    });
+  }
 
-    if (copyEmailBtn) {
-        copyEmailBtn.addEventListener('click', () => {
-            const email = 'support@rocisapps.com';
-            navigator.clipboard.writeText(email).then(() => {
-                if (toast) {
-                    toast.classList.add('show');
-                    setTimeout(() => {
-                        toast.classList.remove('show');
-                    }, 3000);
-                }
-            }).catch(() => {
-                // Fallback for older browsers
-                window.location.href = `mailto:${email}`;
-            });
-        });
+  // --- Contact: copy email ---------------------------------------------------
+  const copyBtn = $('#copy-email');
+  const toast = $('#toast');
+  let toastTimer;
+
+  if (copyBtn) {
+    copyBtn.addEventListener('click', async () => {
+      const email = copyBtn.dataset.email;
+      try {
+        await navigator.clipboard.writeText(email);
+        if (toast) {
+          toast.classList.add('is-visible');
+          clearTimeout(toastTimer);
+          toastTimer = setTimeout(() => toast.classList.remove('is-visible'), 2800);
+        }
+      } catch (e) {
+        // Clipboard refused — select the address so the user can copy it manually.
+        const address = $('.email-address');
+        if (address) window.getSelection()?.selectAllChildren(address);
+      }
+    });
+  }
+
+  // --- Platform-aware hero CTAs ---------------------------------------------
+  const PLAY_URL = 'https://play.google.com/store/apps/details?id=com.rocisapps.tasks';
+  const WEB_URL = 'https://tasks.rocisapps.com';
+  const ctaPrimary = $('#cta-primary');
+  const ctaSecondary = $('#cta-secondary');
+
+  if (ctaPrimary && ctaSecondary && /Android/i.test(navigator.userAgent)) {
+    ctaPrimary.href = PLAY_URL;
+    $('.cta-label', ctaPrimary).textContent = 'Get it on Google Play';
+    ctaSecondary.href = WEB_URL;
+    $('.cta-label', ctaSecondary).textContent = 'Open the web app';
+  }
+
+  // --- Interactive demo: plain-language task parsing -------------------------
+  const MAX_INPUT = 120;
+  const demoInput = $('#demo-input');
+  const demoTitle = $('#demo-title');
+  const demoDue = $('#demo-due');
+  const demoSubtasks = $('#demo-subtasks');
+  const demoCta = $('#demo-cta');
+  const chips = $$('.chip[data-sample]');
+  const checkIcon = $('#tpl-check');
+
+  const WEEKDAYS = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+  const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1);
+
+  const SUBTASKS = [
+    { match: /\b(essay|paper|thesis|article)\b/, steps: [
+      'Pick a thesis and gather sources',
+      'Outline sections and topic sentences',
+      'Write the full first draft',
+      'Check citations, proofread and submit'
+    ] },
+    { match: /\b(lab|report|experiment)\b/, steps: [
+      'Tabulate raw data and compute errors',
+      'Plot figures and fit lines',
+      'Write method, results and discussion',
+      'Format appendix and submit'
+    ] },
+    { match: /\b(exam|midterm|final|quiz|test)\b/, steps: [
+      'Summarise lecture slides and readings',
+      'Do two past papers under time',
+      'Build a one-page formula sheet',
+      'Final active-recall review'
+    ] },
+    { match: /\b(problem set|pset|homework|math|algebra|calculus|physics)\b/, steps: [
+      'Solve the theory questions',
+      'Work through the applied problems',
+      'Check answers against the solutions guide',
+      'Scan pages into one PDF and submit'
+    ] },
+    { match: /\b(presentation|slides|talk)\b/, steps: [
+      'Draft the storyline and key message',
+      'Build the slides',
+      'Rehearse twice with a timer',
+      'Export and upload the final deck'
+    ] }
+  ];
+  const DEFAULT_STEPS = [
+    'Read the brief and grading rubric',
+    'Split the work into milestones',
+    'Finish a first draft',
+    'Polish and hand in'
+  ];
+
+  const parseTask = (input) => {
+    const raw = String(input || '').slice(0, MAX_INPUT).trim();
+    if (!raw) return { title: 'Untitled task', due: 'Today, 11:59 PM', steps: DEFAULT_STEPS };
+
+    let title = raw;
+    let day = 'Tomorrow';
+    let time = '11:59 PM';
+
+    const timeMatch = raw.match(/\b(?:at\s+)?((?:1[0-2]|0?[1-9])(?::[0-5]\d)?\s*(?:am|pm)|(?:[01]?\d|2[0-3]):[0-5]\d)\b/i);
+    if (timeMatch) {
+      time = timeMatch[1].toUpperCase().replace(/\s+/g, '');
+      if (/[AP]M$/.test(time)) {
+        time = time.replace(/^(\d{1,2})(?::(\d{2}))?([AP]M)$/, (m, h, mm, ap) => `${h}:${mm || '00'} ${ap}`);
+      }
+      title = title.replace(timeMatch[0], ' ');
     }
 
-    // --- Scroll Animations ---
-    const observerOptions = {
-        threshold: 0.1
-    };
+    const dayPatterns = [
+      [/\btoday\b/i, 'Today'],
+      [/\btonight\b/i, 'Tonight'],
+      [/\btomorrow\b/i, 'Tomorrow'],
+      [/\bnext\s+week\b/i, 'Next week']
+    ];
+    WEEKDAYS.forEach((d) => {
+      dayPatterns.push([new RegExp(`\\bnext\\s+${d}\\b`, 'i'), `Next ${cap(d)}`]);
+      dayPatterns.push([new RegExp(`\\b(?:on\\s+)?${d}\\b`, 'i'), cap(d)]);
+    });
+    for (const [re, label] of dayPatterns) {
+      if (re.test(title)) {
+        day = label;
+        title = title.replace(re, ' ');
+        break;
+      }
+    }
 
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('animate');
-            }
-        });
-    }, observerOptions);
+    title = title
+      .replace(/\s{2,}/g, ' ')
+      .replace(/\b(at|on|due|by|for)\s*$/i, '')
+      .trim();
+    if (!title) title = raw;
 
-    document.querySelectorAll('.animate').forEach(el => {
-        observer.observe(el);
+    const lower = raw.toLowerCase();
+    const found = SUBTASKS.find((s) => s.match.test(lower));
+    return { title: cap(title), due: `${day}, ${time}`, steps: found ? found.steps : DEFAULT_STEPS };
+  };
+
+  const renderDemo = (task) => {
+    if (demoTitle) demoTitle.textContent = task.title;
+    if (demoDue) demoDue.textContent = task.due;
+
+    if (demoSubtasks) {
+      const items = task.steps.map((step) => {
+        const li = document.createElement('li');
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'check-row';
+        btn.setAttribute('aria-pressed', 'false');
+        const box = document.createElement('span');
+        box.className = 'check-box';
+        box.setAttribute('aria-hidden', 'true');
+        if (checkIcon) box.appendChild(checkIcon.content.cloneNode(true));
+        const label = document.createElement('span');
+        label.className = 'check-label';
+        label.textContent = step;
+        btn.append(box, label);
+        li.appendChild(btn);
+        return li;
+      });
+      demoSubtasks.replaceChildren(...items);
+    }
+
+    // Hand the draft to the web app via the URL (URLSearchParams encodes it safely).
+    if (demoCta) {
+      const params = new URLSearchParams({
+        intent: 'academic_plan',
+        draftTitle: task.title.slice(0, MAX_INPUT),
+        draftDue: task.due,
+        draftSubtasks: task.steps.join('||')
+      });
+      demoCta.href = `${WEB_URL}/?${params.toString()}`;
+    }
+  };
+
+  if (demoInput) {
+    demoInput.addEventListener('input', () => {
+      chips.forEach((c) => c.setAttribute('aria-pressed', String(c.dataset.sample === demoInput.value)));
+      renderDemo(parseTask(demoInput.value));
     });
 
-    // Smooth scroll for internal hash links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-            const href = this.getAttribute('href');
-            if (href.length > 1) {
-                const target = document.querySelector(href);
-                if (target) {
-                    e.preventDefault();
-                    target.scrollIntoView({
-                        behavior: 'smooth'
-                    });
-                }
-            }
-        });
+    chips.forEach((chip) => {
+      chip.addEventListener('click', () => {
+        demoInput.value = chip.dataset.sample;
+        chips.forEach((c) => c.setAttribute('aria-pressed', String(c === chip)));
+        renderDemo(parseTask(chip.dataset.sample));
+      });
     });
 
-    // --- Dynamic Platform Detection for Hero CTAs ---
-    const primaryHeroCta = document.getElementById('primary-hero-cta');
-    const primaryCtaLabel = document.getElementById('primary-cta-label');
-    const secondaryHeroCta = document.getElementById('secondary-hero-cta');
-    const secondaryCtaLabel = document.getElementById('secondary-cta-label');
-
-    const isAndroid = /Android/i.test(navigator.userAgent);
-    const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
-
-    if (isAndroid) {
-        if (primaryHeroCta && primaryCtaLabel) {
-            primaryHeroCta.href = "https://play.google.com/store/apps/details?id=com.rocisapps.tasks";
-            primaryHeroCta.target = "_blank";
-            primaryHeroCta.rel = "noopener noreferrer";
-            primaryCtaLabel.textContent = "Get it on Google Play";
-        }
-        if (secondaryHeroCta && secondaryCtaLabel) {
-            secondaryHeroCta.href = "https://tasks.rocisapps.com";
-            secondaryHeroCta.target = "_blank";
-            secondaryCtaLabel.textContent = "Launch Web App";
-        }
-    } else {
-        // Desktop / Other: Outcome-oriented primary CTA to interactive demo / workload planner
-        if (primaryHeroCta && primaryCtaLabel) {
-            primaryHeroCta.href = "#interactive-demo";
-            primaryCtaLabel.textContent = "Plan my workload";
-        }
-        if (secondaryHeroCta && secondaryCtaLabel) {
-            secondaryHeroCta.href = "https://tasks.rocisapps.com";
-            secondaryHeroCta.target = "_blank";
-            secondaryCtaLabel.textContent = "Launch Web App";
-        }
+    if (demoSubtasks) {
+      demoSubtasks.addEventListener('click', (e) => {
+        const btn = e.target.closest('.check-row');
+        if (btn) toggleCheck(btn);
+      });
     }
 
-    // --- Interactive 'Try Before Sign-Up' Demo Logic ---
-    const demoTaskInput = document.getElementById('demo-task-input');
-    const demoParseBtn = document.getElementById('demo-parse-btn');
-    const demoChips = document.querySelectorAll('.demo-chip');
-    const demoPreviewTitle = document.getElementById('demo-preview-title');
-    const demoPreviewDueText = document.getElementById('demo-preview-due-text');
-    const demoPreviewSubtasks = document.getElementById('demo-preview-subtasks');
-    const demoDirectCta = document.getElementById('demo-direct-cta');
-
-    const parseAcademicTask = (inputStr) => {
-        const raw = (inputStr || '').trim();
-        if (!raw) {
-            return {
-                title: 'Academic Milestone',
-                dueText: 'Today, 11:59 PM',
-                subtasks: ['Review lecture notes', 'Complete initial outline', 'Submit finalized work']
-            };
-        }
-
-        // Relative Day Detection
-        let dueDay = 'Tomorrow';
-        let dueTime = '5:00 PM';
-        let cleanTitle = raw;
-
-        const timeRegex = /\b(?:at\s+)?((?:1[0-2]|0?[1-9])(?::[0-5][0-9])?\s*(?:am|pm)|(?:[01]?[0-9]|2[0-3]):[0-5][0-9])\b/i;
-        const timeMatch = raw.match(timeRegex);
-        if (timeMatch) {
-            dueTime = timeMatch[1].toUpperCase();
-            if (!dueTime.includes(':') && (dueTime.includes('AM') || dueTime.includes('PM'))) {
-                dueTime = dueTime.replace(/(AM|PM)/i, ':00 $1');
-            }
-            cleanTitle = cleanTitle.replace(timeMatch[0], '');
-        }
-
-        if (/\btomorrow\b/i.test(raw)) {
-            dueDay = 'Tomorrow';
-            cleanTitle = cleanTitle.replace(/\btomorrow\b/gi, '');
-        } else if (/\btoday\b/i.test(raw)) {
-            dueDay = 'Today';
-            cleanTitle = cleanTitle.replace(/\btoday\b/gi, '');
-        } else if (/\bnext\s+monday\b/i.test(raw)) {
-            dueDay = 'Next Monday';
-            cleanTitle = cleanTitle.replace(/\bnext\s+monday\b/gi, '');
-        } else if (/\bfriday\b/i.test(raw)) {
-            dueDay = 'Friday';
-            cleanTitle = cleanTitle.replace(/\bfriday\b/gi, '');
-        } else if (/\bmonday\b/i.test(raw)) {
-            dueDay = 'Monday';
-            cleanTitle = cleanTitle.replace(/\bmonday\b/gi, '');
-        } else if (/\bnext\s+week\b/i.test(raw)) {
-            dueDay = 'Next Week';
-            cleanTitle = cleanTitle.replace(/\bnext\s+week\b/gi, '');
-        }
-
-        // Strip extraneous connector prepositions
-        cleanTitle = cleanTitle.replace(/\b(at|on|due|by|for)\b\s*$/i, '').trim();
-        cleanTitle = cleanTitle.replace(/\s{2,}/g, ' ');
-        if (!cleanTitle) cleanTitle = raw;
-
-        // Context-aware Academic Subtask Generation
-        const lower = raw.toLowerCase();
-        let subtasks = [];
-
-        if (lower.includes('essay') || lower.includes('paper') || lower.includes('thesis')) {
-            subtasks = [
-                'Formulate thesis & gather primary research sources',
-                'Structure outline with topic sentences',
-                'Write complete first draft & arguments',
-                'Proofread citations, bibliography & submit'
-            ];
-        } else if (lower.includes('lab') || lower.includes('report') || lower.includes('experiment')) {
-            subtasks = [
-                'Tabulate raw experimental dataset & compute errors',
-                'Generate plots, regression lines & figures',
-                'Write methodology, observations & discussion',
-                'Format appendix & complete peer review'
-            ];
-        } else if (lower.includes('exam') || lower.includes('midterm') || lower.includes('final') || lower.includes('quiz')) {
-            subtasks = [
-                'Synthesize lecture slides & reading summaries',
-                'Solve past exam papers under timed conditions',
-                'Compile key formula reference sheet',
-                'Conduct final active recall self-assessment'
-            ];
-        } else if (lower.includes('problem set') || lower.includes('pset') || lower.includes('math') || lower.includes('algebra') || lower.includes('physics')) {
-            subtasks = [
-                'Solve core theoretical derivation problems',
-                'Work through application & computational proofs',
-                'Verify solutions against reference bounds',
-                'Scan handwritten steps into PDF submission'
-            ];
-        } else {
-            subtasks = [
-                'Review grading rubric and project requirements',
-                'Outline core milestones and time allocations',
-                'Draft initial deliverable draft',
-                'Final polish and checklist verification'
-            ];
-        }
-
-        return {
-            title: cleanTitle,
-            dueText: `${dueDay}, ${dueTime}`,
-            subtasks: subtasks
-        };
-    };
-
-    const updateDemoPreview = (taskData) => {
-        if (demoPreviewTitle) demoPreviewTitle.textContent = taskData.title;
-        if (demoPreviewDueText) demoPreviewDueText.textContent = taskData.dueText;
-
-        if (demoPreviewSubtasks) {
-            demoPreviewSubtasks.innerHTML = taskData.subtasks.map((st, idx) => `
-                <div class="preview-subtask-item" data-idx="${idx}">
-                    <div class="preview-subtask-checkbox" aria-label="Toggle subtask">
-                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                    </div>
-                    <span class="preview-subtask-label">${st}</span>
-                </div>
-            `).join('');
-
-            // Toggle subtask completion in demo
-            demoPreviewSubtasks.querySelectorAll('.preview-subtask-item').forEach(item => {
-                item.addEventListener('click', () => {
-                    item.classList.toggle('completed');
-                });
-            });
-        }
-
-        // Configure task preservation URL
-        const queryParams = new URLSearchParams({
-            intent: 'academic_plan',
-            draftTitle: taskData.title,
-            draftDue: taskData.dueText,
-            draftSubtasks: taskData.subtasks.join('||')
-        });
-
-        const appUrl = `https://tasks.rocisapps.com/?${queryParams.toString()}`;
-
-        if (demoDirectCta) {
-            demoDirectCta.href = appUrl;
-        }
-
-        const handleTaskPreservation = (e) => {
-            try {
-                localStorage.setItem('rocis_draft_task', JSON.stringify(taskData));
-            } catch (_) {}
-        };
-
-        if (demoDirectCta) {
-            demoDirectCta.onclick = handleTaskPreservation;
-        }
-        if (demoParseBtn) {
-            demoParseBtn.onclick = () => {
-                handleTaskPreservation();
-                window.open(appUrl, '_blank', 'noopener,noreferrer');
-            };
-        }
-    };
-
-    if (demoTaskInput) {
-        demoTaskInput.addEventListener('input', () => {
-            const parsed = parseAcademicTask(demoTaskInput.value);
-            updateDemoPreview(parsed);
-        });
-
-        demoChips.forEach(chip => {
-            chip.addEventListener('click', () => {
-                demoChips.forEach(c => c.classList.remove('active'));
-                chip.classList.add('active');
-                const sampleText = chip.getAttribute('data-sample');
-                demoTaskInput.value = sampleText;
-                const parsed = parseAcademicTask(sampleText);
-                updateDemoPreview(parsed);
-            });
-        });
-
-        // Initialize with default sample
-        const initialParsed = parseAcademicTask(demoTaskInput.value);
-        updateDemoPreview(initialParsed);
-    }
-});
-
+    renderDemo(parseTask(demoInput.value));
+  }
+})();
