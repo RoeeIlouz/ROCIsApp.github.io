@@ -90,7 +90,7 @@
     <section id="privacy" class="hero contact" style="padding: 11rem 0 6rem; min-height: 80vh;">
       <div class="glow-orb"></div>
       <div class="container">
-        <div class="card animate privacy-content" style="padding: 4rem 3rem; max-width: 900px; margin: 0 auto; text-align: left;">
+        <div class="card privacy-content" style="padding: 4rem 3rem; max-width: 900px; margin: 0 auto; text-align: left;">
           <h1 style="font-size: 3rem; margin-bottom: 1rem; text-align: center;">Privacy Policy</h1>
           <p style="text-align: center; font-weight: bold; margin-bottom: 3rem;">Last Updated: September 26, 2026</p>
 
@@ -114,6 +114,19 @@
             <li><strong>Where it is stored:</strong> in Google Cloud Firestore in the European Union, readable only by you, encrypted in transit and at rest, with a private copy on your device for offline use.</li>
             <li><strong>Deleting your data:</strong> Settings &gt; Account &gt; Delete account permanently deletes your account and all its data from our servers and the device. You can also email <a href="mailto:support@rocisapps.com">support@rocisapps.com</a>.</li>
             <li><strong>Limited Use:</strong> ROCIs Schedule's use and transfer of information received from Google APIs adheres to the <a href="https://developers.google.com/terms/api-services-user-data-policy#additional_requirements_for_specific_api_scopes" target="_blank" rel="noopener noreferrer">Google API Services User Data Policy</a>, including the Limited Use requirements.</li>
+          </ul>
+
+          <h2 id="google-user-data">How ROCIs Schedule Handles Google User Data</h2>
+          <p>This section describes specifically how ROCIs Schedule accesses, uses, stores, shares, protects, retains and deletes the data it receives from your Google Account.</p>
+          <ul>
+            <li><strong>Data accessed:</strong> with Google Sign-In, your name, email address, profile picture and Google account ID (<code>openid</code>, <code>email</code>, <code>profile</code>). If you turn on Google Calendar sync, access to a separate "ROCIs Schedule" calendar that the app creates (<code>calendar.app.created</code>); the app cannot read or change any of your other calendars or events.</li>
+            <li><strong>How it is used:</strong> your account details are used only to create and sign in to your ROCIs Schedule account and to show your name and picture in the app. Calendar access is used only to create that calendar and to add, update and remove your classes and events in it so they match your schedule.</li>
+            <li><strong>How it is stored:</strong> your account details are stored in Firebase Authentication and your private profile in Cloud Firestore (European Union). Google access tokens stay on your device, managed by Google's sign-in libraries; we never store them on our servers.</li>
+            <li><strong>How it is shared:</strong> we do not share, sell, rent, transfer or disclose Google user data to any third party. It is processed only by Google Firebase, which hosts our service.</li>
+            <li><strong>How it is protected:</strong> it is encrypted in transit (TLS) and at rest, and security rules allow only you to access your data.</li>
+            <li><strong>Retention and deletion:</strong> we keep it only while your account exists. Deleting your account (Settings &gt; Account &gt; Delete account) permanently deletes it from our servers. Turning off Google Calendar sync lets you remove the "ROCIs Schedule" calendar, and you can revoke access at any time at <a href="https://myaccount.google.com/permissions" target="_blank" rel="noopener noreferrer">myaccount.google.com/permissions</a>.</li>
+            <li><strong>What we never do with Google user data:</strong> we never use it for targeted or personalised advertising, never sell it, never use it to determine credit-worthiness or for lending purposes, and never use it to develop, improve or train generalised artificial intelligence or machine-learning models. No person reads it unless you ask us for help and give permission, it is needed for security or abuse investigations, or it is required by law.</li>
+            <li><strong>Limited Use:</strong> ROCIs Schedule's use and transfer of information received from Google APIs to any other app will adhere to the <a href="https://developers.google.com/terms/api-services-user-data-policy#additional_requirements_for_specific_api_scopes" target="_blank" rel="noopener noreferrer">Google API Services User Data Policy</a>, including the Limited Use requirements.</li>
           </ul>
 
           <h2>1. What Information Do We Collect?</h2>
