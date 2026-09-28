@@ -395,4 +395,18 @@
 
     renderDemo(parseTask(demoInput.value));
   }
+
+  // --- Lightswind Interactive Spotlight Tracking ---------------------------
+  const interactiveCards = $$('.features li, .step, .demo');
+  interactiveCards.forEach((card) => {
+    card.addEventListener('pointermove', (e) => {
+      const rect = card.getBoundingClientRect();
+      card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+      card.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+    });
+    card.addEventListener('pointerleave', () => {
+      card.style.setProperty('--mouse-x', '-500px');
+      card.style.setProperty('--mouse-y', '-500px');
+    });
+  });
 })();
