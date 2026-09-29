@@ -2,4 +2,12 @@ User-agent: *
 Allow: /
 Disallow: /404.html
 
+User-agent: Googlebot
+Allow: /
+Disallow: /404.html
+
+User-agent: Bingbot
+Allow: /
+Disallow: /404.html
+
 Sitemap: https://rocisapps.com/sitemap.xml

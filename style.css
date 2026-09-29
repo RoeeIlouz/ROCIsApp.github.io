@@ -376,7 +376,6 @@ code {
   color: var(--teal-ink);
   border: 1px solid var(--teal-line);
   vertical-align: middle;
-  box-shadow: 0 0 10px -2px var(--teal-soft);
 }
 
 .pill-wip::before {
@@ -385,13 +384,6 @@ code {
   height: 6px;
   border-radius: 50%;
   background: currentColor;
-  box-shadow: 0 0 6px currentColor;
-  animation: pulseDot 2s infinite ease-in-out;
-}
-
-@keyframes pulseDot {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.35; transform: scale(0.8); }
 }
 
 .section-head {
@@ -434,28 +426,9 @@ code {
 }
 
 .btn-primary {
-  position: relative;
-  overflow: hidden;
   background: var(--acc-fill);
   color: var(--acc-on);
   box-shadow: 0 10px 24px -10px rgba(243, 112, 0, 0.6);
-}
-
-.btn-primary::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -120%;
-  width: 60%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.22), transparent);
-  transform: skewX(-20deg);
-  pointer-events: none;
-}
-
-.btn-primary:hover::after {
-  left: 150%;
-  transition: left 0.8s ease-in-out;
 }
 
 .is-schedule .btn-primary {
@@ -685,24 +658,15 @@ code {
 .glow {
   position: absolute;
   z-index: -1;
-  top: -220px;
-  right: -150px;
-  width: min(950px, 115vw);
+  top: -260px;
+  right: -180px;
+  width: min(900px, 110vw);
   aspect-ratio: 1;
   border-radius: 50%;
-  background:
-    radial-gradient(circle at 40% 40%, rgba(243, 112, 0, 0.32) 0%, rgba(121, 35, 0, 0.12) 45%, transparent 70%),
-    radial-gradient(circle at 75% 65%, rgba(251, 191, 36, 0.18) 0%, transparent 60%);
-  filter: blur(70px);
+  background: radial-gradient(circle, rgba(243, 112, 0, 0.26) 0%, rgba(121, 35, 0, 0.12) 42%, rgba(243, 112, 0, 0) 70%);
+  filter: blur(60px);
   opacity: var(--glow-strength);
   pointer-events: none;
-  animation: heroGlowFloat 16s ease-in-out infinite alternate;
-}
-
-@keyframes heroGlowFloat {
-  0% { transform: translate(0, 0) scale(1); }
-  50% { transform: translate(-35px, 25px) scale(1.06); }
-  100% { transform: translate(25px, -20px) scale(0.95); }
 }
 
 .hero-grid {
@@ -801,38 +765,13 @@ code {
 /* ---------- Interactive demo ---------------------------------------------- */
 .demo {
   position: relative;
-  overflow: hidden;
-  background:
-    radial-gradient(
-      500px circle at var(--mouse-x, -500px) var(--mouse-y, -500px),
-      rgba(243, 112, 0, 0.08),
-      transparent 70%
-    ),
-    var(--surface);
+  background: var(--surface);
   border: 1px solid var(--border-strong);
   border-radius: var(--radius-lg);
   padding: clamp(1.1rem, 3vw, 1.6rem);
   box-shadow: var(--shadow-lg);
   display: grid;
   gap: 1rem;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.demo::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 15%;
-  right: 15%;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, rgba(243, 112, 0, 0.7), rgba(251, 191, 36, 0.7), transparent);
-  border-radius: 999px;
-  pointer-events: none;
-}
-
-.demo:hover {
-  border-color: rgba(243, 112, 0, 0.4);
-  box-shadow: 0 20px 48px -12px rgba(243, 112, 0, 0.15), var(--shadow-lg);
 }
 
 .demo-head {
@@ -1042,28 +981,11 @@ code {
 
 .step {
   position: relative;
-  overflow: hidden;
   display: grid;
-  gap: 0.5rem;
-  padding: 1.6rem;
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--border);
-  background:
-    radial-gradient(
-      380px circle at var(--mouse-x, -500px) var(--mouse-y, -500px),
-      rgba(243, 112, 0, 0.08),
-      transparent 70%
-    ),
-    var(--surface);
-  box-shadow: var(--shadow-sm);
-  transition: transform 0.25s var(--ease), border-color 0.25s ease, box-shadow 0.25s ease;
+  gap: 0.4rem;
+  padding: 1.35rem 1.4rem 1.4rem;
+  border-top: 2px solid var(--border-strong);
   counter-increment: step;
-}
-
-.step:hover {
-  transform: translateY(-3px);
-  border-color: rgba(243, 112, 0, 0.35);
-  box-shadow: 0 14px 32px -12px rgba(243, 112, 0, 0.14), var(--shadow);
 }
 
 .step::before {
@@ -1077,14 +999,12 @@ code {
 
 .step h3 {
   font-family: var(--font-body);
-  font-size: 1.15rem;
-  font-weight: 700;
+  font-size: 1.1rem;
 }
 
 .step p {
   color: var(--text-muted);
-  font-size: 0.95rem;
-  line-height: 1.6;
+  font-size: 0.97rem;
 }
 
 /* ---------- Product showcase ---------------------------------------------- */
@@ -1148,60 +1068,26 @@ code {
 }
 
 .features li {
-  position: relative;
-  overflow: hidden;
   display: grid;
-  grid-template-columns: 44px 1fr;
-  gap: 1rem;
+  grid-template-columns: 40px 1fr;
+  gap: 0.9rem;
   align-items: start;
-  padding: 1.1rem 1.25rem;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--border);
-  background:
-    radial-gradient(
-      320px circle at var(--mouse-x, -500px) var(--mouse-y, -500px),
-      rgba(243, 112, 0, 0.08),
-      transparent 70%
-    ),
-    var(--surface);
-  transition: transform 0.25s var(--ease), border-color 0.25s ease, box-shadow 0.25s ease;
-}
-
-.is-schedule .features li {
-  background:
-    radial-gradient(
-      320px circle at var(--mouse-x, -500px) var(--mouse-y, -500px),
-      rgba(0, 121, 107, 0.08),
-      transparent 70%
-    ),
-    var(--surface);
-}
-
-.features li:hover {
-  transform: translateY(-2px);
-  border-color: rgba(243, 112, 0, 0.35);
-  box-shadow: 0 10px 28px -10px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(243, 112, 0, 0.1) inset;
-}
-
-.is-schedule .features li:hover {
-  border-color: rgba(0, 121, 107, 0.4);
-  box-shadow: 0 10px 28px -10px rgba(0, 121, 107, 0.16), 0 0 0 1px rgba(0, 121, 107, 0.12) inset;
 }
 
 .feature-icon {
   display: grid;
   place-items: center;
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
+  width: 40px;
+  height: 40px;
+  border-radius: 11px;
   background: var(--acc-soft);
   border: 1px solid var(--acc-line);
   color: var(--acc-ink);
 }
 
 .feature-icon svg {
-  width: 22px;
-  height: 22px;
+  width: 20px;
+  height: 20px;
   fill: none;
   stroke: currentColor;
   stroke-width: 2;
@@ -1234,34 +1120,11 @@ code {
   border-radius: 44px;
   padding: 11px;
   background: #1B130E;
-  box-shadow:
-    var(--shadow-lg),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.08),
-    0 0 45px -10px rgba(243, 112, 0, 0.25);
-  transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease);
-}
-
-.phone:hover {
-  transform: translateY(-4px);
-  box-shadow:
-    0 36px 72px -20px rgba(0, 0, 0, 0.8),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.12),
-    0 0 60px -8px rgba(243, 112, 0, 0.38);
+  box-shadow: var(--shadow-lg), inset 0 0 0 1px rgba(255, 255, 255, 0.08);
 }
 
 .is-schedule .phone {
-  box-shadow:
-    0 30px 60px -24px rgba(0, 150, 136, 0.45),
-    inset 0 0 0 1px rgba(45, 212, 191, 0.25),
-    0 0 45px -10px rgba(0, 121, 107, 0.25);
-}
-
-.is-schedule .phone:hover {
-  transform: translateY(-4px);
-  box-shadow:
-    0 36px 72px -20px rgba(0, 150, 136, 0.55),
-    inset 0 0 0 1px rgba(45, 212, 191, 0.35),
-    0 0 60px -8px rgba(0, 121, 107, 0.4);
+  box-shadow: 0 30px 60px -24px rgba(0, 150, 136, 0.45), inset 0 0 0 1px rgba(45, 212, 191, 0.25);
 }
 
 .phone::before {
