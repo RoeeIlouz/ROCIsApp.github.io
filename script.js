@@ -224,6 +224,26 @@
     });
   }
 
+  // --- Side projects: copy a command ([data-copy]) ---------------------------
+  $$('[data-copy]').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(btn.dataset.copy);
+        if (toast) {
+          const label = $('span', toast);
+          if (label && btn.dataset.copyDone) label.textContent = btn.dataset.copyDone;
+          toast.classList.add('is-visible');
+          clearTimeout(toastTimer);
+          toastTimer = setTimeout(() => toast.classList.remove('is-visible'), 2800);
+        }
+      } catch (e) {
+        // Clipboard refused: select the command so it can be copied by hand.
+        const cmd = btn.closest('.run-block')?.querySelector('.run-cmd');
+        if (cmd) window.getSelection()?.selectAllChildren(cmd);
+      }
+    });
+  });
+
   // --- Platform-aware hero CTAs ---------------------------------------------
   const PLAY_URL = 'https://play.google.com/store/apps/details?id=com.rocisapps.tasks';
   const WEB_URL = 'https://tasks.rocisapps.com';
