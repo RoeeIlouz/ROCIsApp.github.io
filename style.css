@@ -2150,6 +2150,34 @@ code {
   color: var(--orange-ink);
 }
 
+/* Guides: code blocks inside .doc articles */
+.doc pre {
+  overflow-x: auto;
+  padding: 0.85rem 1rem;
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  border: 1px solid var(--border-strong);
+}
+
+.doc pre code {
+  display: block;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-size: 0.9rem;
+  white-space: pre;
+  overflow-wrap: normal;
+}
+
+.doc .run-block {
+  margin-block: 1.25rem;
+}
+
+.project-guides {
+  font-size: 0.92rem;
+  color: var(--text-muted);
+}
+
 /* ---------- Side projects ------------------------------------------------- */
 .project {
   display: grid;
