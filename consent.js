@@ -94,4 +94,16 @@
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
   else init();
+
+  // Conversion events. gtag only exists after consent, so nothing is sent otherwise.
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[href]');
+    if (!a || !window.gtag) return;
+    var href = a.getAttribute('href');
+    var name = null;
+    if (href.indexOf('play.google.com/store/apps/details?id=com.rocisapps.tasks') !== -1) name = 'tasks_play_click';
+    else if (href.indexOf('tasks.rocisapps.com') !== -1) name = 'tasks_web_click';
+    else if (a.hasAttribute('data-schedule-beta')) name = 'schedule_beta_click';
+    if (name) window.gtag('event', name, { link_url: href, page_path: location.pathname });
+  });
 })();
