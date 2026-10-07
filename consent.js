@@ -95,15 +95,20 @@
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
   else init();
 
-  // Conversion events. gtag only exists after consent, so nothing is sent otherwise.
+  // Conversion clicks. Every click is counted by the cookieless ROCIs counter
+  // (one number per button per day, nothing about the visitor). Google
+  // Analytics gets the same event only after consent, when gtag exists.
+  var COUNTER = 'https://rocis-count.roee-ilouz.workers.dev';
   document.addEventListener('click', function (e) {
     var a = e.target.closest && e.target.closest('a[href]');
-    if (!a || !window.gtag) return;
+    if (!a) return;
     var href = a.getAttribute('href');
     var name = null;
     if (href.indexOf('play.google.com/store/apps/details?id=com.rocisapps.tasks') !== -1) name = 'tasks_play_click';
     else if (href.indexOf('tasks.rocisapps.com') !== -1) name = 'tasks_web_click';
     else if (a.hasAttribute('data-schedule-beta')) name = 'schedule_beta_click';
-    if (name) window.gtag('event', name, { link_url: href, page_path: location.pathname });
+    if (!name) return;
+    try { if (navigator.sendBeacon) navigator.sendBeacon(COUNTER, name); } catch (err) { /* blocked */ }
+    if (window.gtag) window.gtag('event', name, { link_url: href, page_path: location.pathname });
   });
 })();
