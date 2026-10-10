@@ -415,4 +415,51 @@
 
     renderDemo(parseTask(demoInput.value));
   }
+
+  // --- Launch countdown ----------------------------------------------------
+  // Counts down to release day, says "today" on the day (a Play rollout is not
+  // instant), then settles on a plain "now on Google Play" line.
+  const launch = $('#launch');
+  if (launch) {
+    const target = Date.parse(launch.dataset.launch);
+    const label = $('#launch-label');
+    const time = $('#launch-time');
+    const DAY = 86400000;
+    let timer = 0;
+
+    const unit = (value, name) => {
+      const span = document.createElement('span');
+      span.className = 'launch-unit';
+      const num = document.createElement('strong');
+      num.textContent = String(value).padStart(2, '0');
+      const txt = document.createElement('small');
+      txt.textContent = name;
+      span.append(num, txt);
+      return span;
+    };
+
+    const tick = () => {
+      const left = target - Date.now();
+      if (left <= 0) {
+        launch.classList.add('is-live');
+        time.replaceChildren();
+        label.textContent = left > -DAY
+          ? 'Full release rolling out today on Google Play'
+          : 'Now on Google Play, out of beta';
+        if (left <= -DAY) clearInterval(timer);
+        return;
+      }
+      const d = Math.floor(left / DAY);
+      const h = Math.floor((left % DAY) / 3600000);
+      const m = Math.floor((left % 3600000) / 60000);
+      label.textContent = 'Full release on Google Play in';
+      time.replaceChildren(unit(d, 'days'), unit(h, 'hrs'), unit(m, 'min'));
+      time.setAttribute('aria-label', d + ' days, ' + h + ' hours, ' + m + ' minutes');
+    };
+
+    if (!Number.isNaN(target)) {
+      tick();
+      timer = setInterval(tick, 30000);
+    }
+  }
 })();

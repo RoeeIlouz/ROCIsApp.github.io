@@ -362,6 +362,60 @@ code {
   border-radius: 4px;
 }
 
+/* ---------- Launch countdown (hero) -------------------------------------- */
+.launch {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  width: fit-content;
+  max-width: 100%;
+  margin-block: 0.25rem 1.25rem;
+  padding: 0.6rem 1rem;
+  border-radius: var(--radius);
+  background: var(--acc-soft);
+  border: 1px solid var(--acc-line);
+}
+
+.launch-label {
+  margin: 0;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--acc-ink);
+}
+
+.launch-time {
+  display: flex;
+  gap: 0.6rem;
+  margin: 0;
+  font-weight: 600;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+
+.launch-unit {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.15rem;
+}
+
+.launch-unit strong {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.launch-unit small {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.launch.is-live .launch-time {
+  display: none;
+}
+
 .pill-wip {
   display: inline-flex;
   align-items: center;
@@ -703,6 +757,12 @@ code {
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem;
+}
+
+.cta-note {
+  margin-top: 0.75rem;
+  font-size: 0.875rem;
+  color: var(--text-muted);
 }
 
 .trust-row {
